@@ -1,0 +1,140 @@
+<div ng-controller="editProfileCtrl">
+    <form method="post" name="EditProfileForm">
+
+        <div class="form-group">
+            <label class="form-label" for="userInput">Prefix</label>
+            <div class="controls">
+                <input type="text" ng-model="userDetails.prefix"  class="form-control" id="userInput">
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error':EditProfileForm.firstName.$dirty && EditProfileForm.firstName.$invalid, 'has-success':EditProfileForm.firstName.$valid}">
+            <label class="control-label"> First Name <span class="symbol required"></span> </label>
+            <input type="text" placeholder="Enter your First Name" class="form-control" name="firstName" ng-model="userDetails.firstName" required />
+            <span class="error text-small1 block" ng-if="EditProfileForm.firstName.$dirty && EditProfileForm.firstName.$invalid">First Name is required</span>
+            <span class="success text-small1" ng-if="EditProfileForm.firstName.$valid">Thank You!</span>
+        </div>
+        <div class="form-group" ng-class="{'has-error':EditProfileForm.lastName.$dirty
+                                                                && EditProfileForm.lastName.$invalid, 'has-success':EditProfileForm.lastName.$valid}">
+            <label class="control-label"> Last Name <span class="symbol required"></span> </label>
+            <input type="text" placeholder="Enter your Last Name" class="form-control" name="lastName" ng-model="userDetails.lastName" required />
+            <span class="error text-small1 block" ng-if="EditProfileForm.lastName.$dirty && EditProfileForm.lastName.$invalid">Last Name is required</span>
+            <span class="success text-small1" ng-if="EditProfileForm.lastName.$valid">Wonderful!</span>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="userInput">Suffix</label>
+            <div class="controls">
+                <input type="text" ng-model="userDetails.suffix"  class="form-control" id="userInput">
+            </div>
+        </div> 
+
+        <div ng-init="dobFormate()" class="form-group" ng-class="{'has-error':EditProfileForm.dob.$dirty && EditProfileForm.dob.$invalid, 'has-success':EditProfileForm.dob.$valid}">
+            <label class="control-label"> Date of Birth <span class="symbol required"></span> </label>
+            <input type="date" id="exampleInput" name="dob" ng-model="dob"  placeholder="yyyy-MM-dd" required />
+            <span class="error text-small1 block" ng-if="EditProfileForm.dob.$dirty
+                                                                        && EditProfileForm.dob.$invalid">Date of Birth is required</span>
+            <span class="success text-small1" ng-if="EditProfileForm.dob.$valid">Wonderful!</span>
+        </div>
+        <div class="form-group" ng-class="{'has-error':EditProfileForm.specialization.$dirty && EditProfileForm.specialization.$invalid, 'has-success':EditProfileForm.specialization.$valid}">
+            <label class="control-label">Specialization <span class="symbol required"></span> </label>
+            <span class="desc">e.g. cardiologist</span>
+            <input type="text" placeholder="Enter your Specialization" class="form-control" name="specialization" value="specialization" ng-model="userDetails.Specialization" required />
+            <span class="error text-small1 block" ng-if="EditProfileForm.specialization.$dirty && EditProfileForm.specialization.$invalid">Specialization is required</span>
+            <span class="success text-small1" ng-if="EditProfileForm.specialization.$valid">Wonderful!</span>
+        </div>
+        <div class="form-group req">
+            <label class="form-label">Department Id</label>
+            <span class="desc"></span>
+            <div class="input-group" inputgroup="">
+                <select ng-model="selectedDept" class="form-control" ng-options="d.Name for d in deptdata track by d.Id">
+                    <!-- <option value="{{d.Id}}" ng-repeat="d in deptdata" >{{d.Name}}</option> track by item.id-->
+                </select>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error':EditProfileForm.email.$dirty && EditProfileForm.email.$invalid, 'has-success':EditProfileForm.email.$valid}">
+            <label class="control-label"> Email <span class="symbol required"></span> </label>
+            <input type="email" placeholder="Enter a valid E-mail" class="form-control" name="email"  ng-model="userDetails.userEmail" required disabled>
+            <span class="error text-small1 block" ng-if="EditProfileForm.email.$dirty && EditProfileForm.email.$error.required">Email is required.</span>
+            <span class="error text-small1 block" ng-if="EditProfileForm.email.$error.email">Please, enter a valid email address.</span>
+            <span class="success text-small1" ng-if="EditProfileForm.email.$valid">It's a valid e-mail!</span>
+        </div>
+        <div class="form-group req" >
+            <label class="form-label" for="field-11">Role IDs</label>
+            <span class="desc"></span>
+            <div>
+                <ul ng-repeat="role in example13model">
+                    <li class='text-black' style='font-size:12px;'>{{role.label}}</li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="form-group ">
+            <label class="form-label" for="field-14">Add Image</label>
+            <div class="panel-body">
+                <div class="controls">
+                    <input  type="file" ng-model="staffImageFile" ngf-accept="'image/*'" onchange="angular.element(this).scope().imageUploadAddStaff(this)"  style="width:100%;height:30px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error':EditProfileForm.phone.$dirty
+                                                                && EditProfileForm.phone.$invalid, 'has-success':EditProfileForm.phone.$valid}">
+            <label class="control-label"> Phone No <span class="symbol required"></span> </label>
+            <input type="text"  ng-minlength="8" ng-maxlength="14"  placeholder="Enter Your Phone Number" class="form-control" name="phone" ng-model="userDetails.PhoneNumber"  required />                 
+            <span class="error text-small1 block" ng-if="EditProfileForm.phone.$dirty && EditProfileForm.phone.$invalid">Phone Number is required</span>
+            <span class="success text-small1" ng-if="EditProfileForm.phone.$valid">Thank You!</span>
+        </div>
+        <div class="form-group ">
+            <label class="form-label" for="field-11">Brief</label>
+            <div class="panel-body">
+                <div class="controls">
+                    <textarea class="form-control textarea1 noscroll comments" ng-model="userDetails.Brief" ></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="form-label" for="field-11">Biography</label>
+            <div class="panel-body">
+                <div class="controls">
+                    <textarea class="form-control textarea1 noscroll comments"   ng-model="userDetails.Biography" ></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="form-label" for="field-11">Education</label>
+            <div class="panel-body">
+                <div class="controls">
+                    <textarea class="form-control textarea1 noscroll comments"   ng-model="userDetails.Education"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="form-label" for="field-11">Experience</label>
+            <div class="panel-body">
+                <div class="controls">
+                    <textarea class="form-control textarea1 noscroll comments"   ng-model="userDetails.Experience" ></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="form-label" for="field-11">Accomplishments</label>
+            <div class="panel-body">
+                <div class="controls">
+                    <textarea class="form-control textarea1 noscroll comments"   ng-model="userDetails.Accomplishments" ></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="form-label" for="field-11">Membership</label>
+            <div class="panel-body">
+                <div class="controls">
+                    <textarea class="form-control textarea1 noscroll comments"   ng-model="userDetails.Membership"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="text-left">
+            <button type="submit" ng-click="editUserProfile()" class="btn btn-primary" ng-disabled="userDetails.firstName == null || userDetails.lastName == null || dob == null || userDetails.Specialization == null || selectedDept == null || userDetails.userEmail == null || userDetails.PhoneNumber == null">Save</button>
+            <a href="/#/myProfile/description"><button type="button" class="btn">Cancel</button></a>
+        </div>
+    </form>
+
+</div><!-- edir profile end -->

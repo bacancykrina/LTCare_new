@@ -1,0 +1,181 @@
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div ng-if="loader">
+            <div class="loader">
+            </div>
+        </div>
+        <div class="row">
+            <div class="tab-content" >
+                <div class="container">
+                    <br>
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="tab in staffTab" class="heading-font-size" ng-class="{'in active': content =='{{tab.method}}'}"><a ng-click="checkstaffTab(tab.method)" >{{tab.text}}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" ng-class="{'in active': content == 'staffTabProfile'}" >
+                            <div class="row" ng-if="!isEdit">
+                                <div class="col-md-12 staffalign staff-two staff-three" >
+                                    <div class="row extrastaff" >
+                                        <span class="fa-stack fa-2x">
+                                            <a ng-click="staffEditProfile()">
+                                                <div id="hoverText" title="Edit Profile">
+                                                    <i class="fa fa-fw fa-edit"></i>
+                                            </a></div>
+                                    </span> 
+                                    <div class="col-md-7">
+                                        <div class="pad15">
+                                            <div class="thumb-icon1">
+                                                <image ng-src="{{srcImagePath}}{{imageAPIData.Image}}" class="img-responsive img-rounded" >
+                                            </div>
+                                            <br>
+                                            <div class="thumb-contant">
+                                                <h3 id="n1" class='name-color'>{{imageAPIData.FirstName}} {{imageAPIData.LastName}}</h3>
+                                                <div ng-repeat="m in profileOfStaff">
+                                                    <hr>
+                                                    <span class="text-small text-bold">Period:</span>
+                                                    <span class="text-small margin-bottom-5">
+                                                        {{m.EffectiveDate| date: 'MM/dd/yyyy'}} -
+                                                        <span> {{m.ExpirationDate| date: 'MM/dd/yyyy'}}</span>
+                                                        <span>{{m.TerminatedDate| date: 'MM/dd/yyyy'}}</span>
+                                                    </span><br/>
+                                                    <span class="text-small text-bold">Campus:</span>
+                                                    <span class="text-small margin-bottom-5">
+                                                        {{m.Campus}}
+                                                    </span><br/>
+                                                    <span class="text-small text-bold">Department:</span>
+                                                    <span class="text-small margin-bottom-5">
+                                                        {{m.Department}}
+                                                    </span><br/>
+                                                    <span class="text-small text-bold">Building:</span> 
+                                                    <span class="text-small margin-bottom-5">
+                                                        {{m.Building}}
+                                                    </span><br/>
+                                                    <span class="text-small text-bold">Job Title:</span> 
+                                                    <span class="text-small margin-bottom-5">
+                                                        {{m.JobTitle}}
+                                                    </span><br/>
+                                                    <span class="text-small text-bold">Multi Job:</span>
+                                                    <span class="text-small margin-bottom-5">
+                                                        {{m.MultiJob}}
+                                                    </span><br/>
+                                                    <span  class="text-small text-bold">Specialization:</span>
+                                                    <span class="text-small margin-bottom-5">
+                                                        {{m.Specialization}}
+                                                    </span> <br/> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-white no-radius no-border" ng-if="isEdit">
+                        <div class="panel-heading border-light">
+                            <h4 class="panel-title">Edit Staff Member</h4>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12" >
+                                    <section class="box ">
+                                        <div class="content-body pad30" >
+                                            <div class="row">
+                                                <form  method="post" name="EditForm" >
+                                                    <div class="col-lg-8 col-md-8 col-sm-9 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label">UserName:<span class="symbol required"></span> </label>
+                                                            <input type="text" ng-model="systemUser" placeholder="Enter a Username" id="userInput" ng-blur="CheckUser(systemUser)" ng-disabled="imageAPIData.UserName" required>
+                                                            <span class="text-small2 errorColor" ng-show="validationTag">Username already existed</span>
+                                                            <span class="successColor text-small2 block" ng-show="validationTagOk">Thank You!</span>
+                                                            <span class="text-small2 errorColor" ng-show="validationTagOk1">Username Required!</span>
+                                                        </div>
+
+                                                        <div class="form-group" ng-class="{'has-error':EditForm.email.$dirty && EditForm.email.$invalid, 'has-success':EditForm.email.$valid}">
+                                                            <label class="control-label"> Email:<span class="symbol required"></span> </label>
+                                                            <input type="email" placeholder="Enter a valid E-mail" name="email" ng-model="email" ng-blur="CheckEmailExist(email)" ng-disabled="imageAPIData.email" required>
+                                                            <span class="text-small2 errorColor" ng-show="validationEmailTag">Email already existed</span>
+                                                            <span class="successColor text-small2 block" ng-show="validationEmailTagOk">Thank You!</span>
+                                                            <span class="text-small2 errorColor" ng-show="validationEmailTagOk1">Email Required!</span>
+                                                            <span class="error text-small1 block" ng-if="EditForm.email.$error.email">Please, enter a valid email address.</span>
+                                                        </div>
+
+                                                        <div class="form-group" ng-class="{'has-error':EditForm.pwd.$dirty && EditForm.pwd.$invalid, 'has-success':EditForm.pwd.$valid}">
+                                                            <label class="control-label">Password:<span class="symbol required"></span> </label>
+                                                            <input type="password" placeholder="Enter a Password" name="pwd" ng-model="pwd" ng-blur="checkPassword(pwd)" required />
+                                                            <span class="successColor text-small2 block "  ng-show="PasswordTagOk">Thank You!</span>
+                                                            <span class="text-small2 errorColor" ng-show="PasswordTagNull">Password is required!</span>
+                                                            <span class="text-small2 errorColor" ng-show="PasswordTagNotok">Password must contain One Capital Letter,One Special Character,One Digit and Minimum 6 Letters.</span>
+                                                        </div>                       
+
+                                                        <div class="form-group" ng-class="{'has-error':EditForm.confirmPwd.$dirty && EditForm.confirmPwd.$error.compareTo || EditForm.confirmPwd.$dirty && EditForm.confirmPwd.$invalid, 'has-success':EditForm.confirmPwd.$valid}">
+                                                            <label class="control-label">Confirm Password:<span class="symbol required"></span> </label>
+                                                            <input type="password" placeholder="Repeat Password" name="confirmPwd" ng-model="confirmPwd" compare-to="pwd" required />
+                                                            <span class="error text-small1 block" ng-if="EditForm.confirmPwd.$dirty && EditForm.confirmPwd.$error.required">Confirm password is required!</span>
+                                                            <span class="error text-small1 block" ng-if="EditForm.confirmPwd.$dirty && EditForm.confirmPwd.$error.compareTo">Passwords do not match!</span>
+                                                            <span class="text-small2 errorColor" ng-show="validationTagPassword1">Please Enter Password</span>
+                                                            <span class="success text-small1 block" ng-if="EditForm.confirmPwd.$valid">Passwords match!</span>
+                                                        </div>
+
+                                                        <div class="form-group req">
+                                                            <label class="form-label" for="field-11">Role IDs</label>
+                                                            <span class="desc"></span>
+                                                            <div class="input-group " inputgroup="">
+                                                                <div ng-dropdown-multiselect="" options="roledata" selected-model="staffRole" extra-settings="roleofStaff" events="eventRolesInStaff"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group req">
+                                                        <label class="form-label" for="field-12">Sub Role IDs</label>
+                                                        <span class="desc"></span>
+                                                        <div class="input-group" inputgroup="" >
+                                                            <div ng-dropdown-multiselect="" options="dropDown" selected-model="subRoleInStaff" extra-settings="subRoleOfStaff" events="eventSubRoleInStaff"> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            <div class="box-footer">
+                                                <button type="submit" ng-click="SendData(systemUser, pwd, email)" ng-disabled='(systemUser == null || email == null || pwd == null || confirmPwd == null || staffRole.length == 0 || subRoleInStaff.length == 0)' class="btn btn-primary">Save</button>
+                                                <button type="button" ng-click="cancel()" class="btn">Cancel</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade" ng-class="{'in active': content == 'patientList'}" >
+                <div class="row" ng-show="patientData">
+                    <div id="staff-{{$index + 1}}" class="col-md-4 clientAlign" ng-repeat="staff in staffTabProfileArray">
+                        <div ng-if="$last"></div>
+                        <div class="pad15">
+                            <div class="thumb-icon1">
+                                <img ng-src="{{srcImagePath}}{{staff.Image}}" class="img-responsive img-thumbnail"> 
+                            </div>
+                            <div class="thumb-contant">
+                                <h3 id="describe-user" class="name-color text-bold">{{staff.FirstName}} {{staff.LastName}}</h3>
+                                <div class="text-small margin-bottom-5">
+                                    <b class= "dark-field"> MPI Number: </b>{{staff.MPatientId}}
+                                </div>
+                                <div class="text-small margin-bottom-5">
+                                    <b class= "dark-field">  Gender: </b> {{staff.GenderFull}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row noResult">
+                    <div ng-show="noPatientList">
+                        <h4 class="panel-title">No Result found.</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</section>
+</div>

@@ -1,0 +1,56 @@
+<div ng-if="loader">
+    <div class="loader">
+    </div>
+</div>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            LT Care            
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">Clinical 360&deg;</li>
+            <li class="active">Client Clinical Client Profile</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="tab-content">
+                <ul class="nav nav-tabs">
+                    <li ng-repeat="ptab in parentTabs" class="heading-font-size" ng-class="{'in active': selectedParentTab =='{{ptab.text}}'}"><a ng-click="checkParentTab(ptab.text)" >{{ptab.text}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <div class="form-inline">
+                    <div class="form-group"> 
+                        <b style="font-size:18px;"> {{fullProfile.FirstName}}{{fullProfile.LastName}}</b> &nbsp;<span ng-if="fullProfile.Directives != null">({{fullProfile.Directives}})</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="selectedParentTab == 'Client Clinical Summary Profile'">
+            <div class="tab-content" >
+                <ul class="nav nav-tabs">
+                    <li ng-repeat="ctab in childTabs[0]" class="heading-font-size" ng-class="{'in active': selectedChildTab =='{{ctab.text}}'}"><a ng-click="checkChildTab(ctab.text)" >{{ctab.text}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" ng-if="selectedParentTab == 'Client Detail Clinical Flow'">
+            <div class="tab-content" >
+                <ul class="nav nav-tabs">
+                    <li ng-repeat="ctab in childTabs[1]" class="heading-font-size" ng-class="{'in active': selectedChildTab =='{{ctab.text}}'}"><a ng-click="checkChildTab(ctab.text)" >{{ctab.text}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tab-content">
+                <div  class="tab-pane fade in active">
+                    <div ng-include="selectedTemplateForChildTab"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

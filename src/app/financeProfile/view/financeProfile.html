@@ -1,0 +1,30 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>LT Care</h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Finance Profile</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div ng-if="loader">
+            <div class="loader">
+            </div>
+        </div>
+        <div class="row">
+            <div class="tab-content" >
+                <ul class="nav nav-tabs">
+                    <li ng-repeat="finance in financeTab" class="heading-font-size" ng-class="{'in active': selectedFinanceTab =='{{finance.text}}'}"><a ng-click="checkFinanceTab(finance.text)" >{{finance.text}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tab-content">
+                <div  class="tab-pane fade in active">
+                    <div ng-include="selectedTemplateForFinanceTab"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

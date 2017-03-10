@@ -1,0 +1,48 @@
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            LT Care            
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="tab-content" >
+                <ul class="nav nav-tabs">
+                    <li ng-repeat="db in dbList" class="heading-font-size" model="selectedDbName" ng-click="getDataByDbName(db.Name)"  ng-class="{'in active': currentDB ==  '{{db.Name}}'}"><a data-toggle="tab" style="font-size:13px;">{{db.Name}}</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="container">
+                        <br>
+                        <ul class="nav nav-tabs" ng-controller="sidebarCtrl">
+                            <li  class="heading-font-size" ng-class="{'active': clientType == 'allclient'}">
+                                <a data-toggle="tab"  ng-click="getDBDataBy('allclient');" style="font-size:12px;">All Clients</a>
+                            </li>
+                            <li class="heading-font-size" ng-class="{'active': clientType == 'active'}">
+                                <a data-toggle="tab"  ng-click="getDBDataBy('active');" style="font-size:12px;">Active Clients</a>
+                            </li>
+                            <li class="heading-font-size" ng-class="{'active': clientType == 'inactive'}">
+                                <a data-toggle="tab"  ng-click="getDBDataBy('inactive');" style="font-size:12px;">In-Active Clients</a>
+                            </li>
+                            <li ng-if="currentDB == 'Loopback'" ng-class="{'active': clientType == 'lead'}" class="heading-font-size">
+                                <a data-toggle="tab" ng-click="getDBDataBy('lead');" style="font-size:12px;">Leads</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div  class="tab-pane fade in active">
+                                <div ng-include="selectedTemplate"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

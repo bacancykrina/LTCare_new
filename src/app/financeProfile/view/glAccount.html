@@ -1,0 +1,72 @@
+<section class="content" ng-controller="glAccountCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3" id="payerText">
+            <div class="form-control">
+                <input type="text" placeholder="Search" ng-model="searchGL" ng-keypress="($event.which === 13)?GLAccount(startGL,endGL,searchGL):0"></input>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date financeClients_date">
+                        <input type="text" id="startGL" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startGL" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date financeClients_date">
+                        <input type="text" id="endGL" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endGL" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-2 search-count">
+            <button type="button" class="btn btn-primary"  ng-click="GLAccount(startGL, endGL, searchGL)" >
+                Search
+            </button>
+            <span  class="search-textmsg">{{GLCount}}</span>
+            <button  type="button" id="" name="clear" class="btn btn-primary clear-margin" ng-click="startGL = null;endGL = null;searchGL = null; GLAccount('', '', '')">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="noGLAccountDetailsFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="GLAccountDetailsFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="GLDetailsDataTableConfig" class="table table-striped">
+                <tr ng-repeat="GL in $data">
+                    <td data-title="'Level Of Care'" sortable="'LevelOfCare'">                                                                      {{GL.LevelOfCare}}
+                    </td> 
+                    <td data-title="'Service Begin Date'" sortable="'ServiceBeginDate'">                                                           {{GL.ServiceBeginDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Service End Date'" sortable="'ServiceEndDate'">                                                    {{GL.ServiceEndDate|date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Transaction Date'" sortable="'TransactionDate'">                                                                      {{GL.TransactionDate|date:'MM/dd/yyyy'	}}
+                    </td>
+                    <td data-title="'Revenue GLAccount Number'" sortable="'RevenueGLAccountNumber'">                                                           {{GL.RevenueGLAccountNumber}}
+                    </td>
+                    <td data-title="'AR GLAccount Name'" sortable="'ARGLAccountName'">                                                                      {{GL.ARGLAccountName}}
+                    </td>
+                    <td data-title="'WriteOff GLAccount Name'" sortable="'WriteOffGLAccountName'">                                                                      {{GL.WriteOffGLAccountName}}
+                    </td>
+                    <td data-title="'WriteOff GLAccount Number'" sortable="'WriteOffGLAccountNumber'">                                                           {{GL.WriteOffGLAccountNumber}}
+                    </td>
+                    <td data-title="'Tax GLAccount Name'"  sortable="'TaxGLAccountName'">                                                                      {{GL.TaxGLAccountName}}
+                    </td>
+                    <td data-title="'Tax GLAccount Number'" sortable="'TaxGLAccountNumber'">                                                                      {{GL.TaxGLAccountNumber}}
+                    </td>
+                    <td data-title="'Source System'" sortable="'DbName'">                                                                      {{GL.DbName}}
+                    </td> 
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

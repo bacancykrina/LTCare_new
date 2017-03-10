@@ -1,0 +1,85 @@
+<section class="content" ng-controller="allClientsCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <!--    <div class="panel panel-white no-radius no-border">-->
+    <div class="margin-row" ng-show="noSearchFound">
+        <div class="col-sm-2 searchInClinical">
+            <div class="form-control">
+                <input type="text" placeholder="Search" ng-model="searchText" ng-keypress="($event.which === 13)?searchClientList(start,end,searchText,allClients):0"></input>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date clients_date">
+                        <input type="text" name="datepicker" placeholder="Start date..." uib-datepicker-popup="MM/dd/yyyy" ng-model="start" show-weeks="false" is-open="startOpened" min-date="'1970-12-31'" max-date="end" ng-required="true" close-text="Close" show-button-bar="false" ng-click="startOpen($event)" ng-focus="startOpened = true;endOpened = false;" />
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date clients_date">
+                        <input type="text" placeholder="End date..." uib-datepicker-popup="MM/dd/yyyy" ng-model="end" show-weeks="false" is-open="endOpened" min-date="start" show-button-bar="false" max-date="maxDate" ng-required="true" close-text="Close" ng-click="endOpen($event)" ng-focus="endOpened = true;startOpened = false" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 physicianInClinical">
+            <div class="row vitalTable">
+                <span class="clip-select">
+                    <select id="temp" ui-select2="allClientsOptions" data-allow-clear="true" ng-model="allClients" style='width:180px;' ng-change="searchClientList(start, end, searchText, allClients)">
+                        <option value="{{item}}" ng-repeat="item in dropDownPhysicianAllClients" >{{item}}</option> 
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-2 search-count">
+            <button class="btn btn-primary" ng-click="searchClientList(start, end, searchText, allClients)">Search</button>
+            <span  class="search-textmsg">{{countedRecords}}</span>
+            <button type="button" id="btnClear" name="clear" class="btn btn-primary clear-margin" ng-click="searchText = '';start = '';end = '';allClients = 'Select Physician';searchClientList();clearDropdown();">
+                Clear
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" ng-show="noRecordFound">
+            <div id="allClient-{{$index + 1}}" class="col-md-4 clientAlign"  ng-repeat="user in allClientList| filter:searchClient">
+                <div ng-if="$last" ng-init="alignFix()"></div>
+                <div class="pad15">
+                    <div ng-click="showUser(user.PatientId)" class="thumb-icon1 marginInProfile">
+                        <!-- <img src="assets/images/default-user.png" alt=""> -->
+                        <img height='110' width='100' check-image gender="{{user.GenderFull}}" ng-src="{{srcImagePath}}{{user.Image}}" class="img-responsive img-thumbnail"> 
+                        <div class="text-small text-center margin-bottom-5">
+                            <b class= "dark-field">Age:</b> {{user.Age}}
+                        </div>        
+                    </div>
+                    <div class="thumb-contant">
+                        <h3 id="describe-user" class='name-color' ng-click="showUser(user.PatientId)">{{user.FirstName}} {{user.LastName}}</h3>
+                        <div class="text-small margin-bottom-5">
+                            <b class= "dark-field"> DOB:</b> {{user.dateofbirth}}
+                        </div>
+                        <div class="text-small margin-bottom-5">
+                            <b class= "dark-field">MPI Number:</b> {{user.MPatientId}}
+                        </div>
+                        <div class="text-small margin-bottom-5">
+                            <b class= "dark-field"> Physician: </b>{{user.PrimaryPhysician}}
+                        </div>
+                        <div class="text-small margin-bottom-5">
+                            <b class= "dark-field"> Gender:</b> {{user.GenderFull}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <uib-pagination ng-if="allClientList" ng-show="countedRecords > itemPerPage" class="pagination-sm" total-items="countedRecords" ng-model="currentPage" max-size="maxSize" boundary-links="true" force-ellipses="true"  ng-click="getNewPageData(currentPage, start, end)" rotate="false" items-per-page="itemPerPage">
+        </uib-pagination>
+        <div class="row" ng-show="noDataFound">
+            <div class="col-xs-12">
+                <h4 class="noResult">No result found. </h4>
+            </div>
+        </div>
+    </div>
+    <!--    </div>-->
+</section>

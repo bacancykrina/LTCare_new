@@ -1,0 +1,80 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Admin 360
+            <small>C2cSystem</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Admin 360</li>
+            <li class="active">C2cSystem</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div ng-controller="c2cCtrl"> 
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="tab in c2cTab" class="heading-font-size" ng-class="{'in active': content =='{{tab.method}}'}"><a ng-click="checkC2CTab(tab.method)" >{{tab.text}}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" ng-class="{'in active': content == 'matrixCare'}">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <iframe class="c2c" ng-src="{{url}}"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" ng-class="{'in active': content == 'paceCare'}">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <iframe class="c2c" ng-src="{{url}}"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" ng-class="{'in active': content == 'DSL'}" >
+                            <div class="panel-body">
+                                <div class="row">
+                                    <iframe class="c2c" ng-src="{{url}}"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" ng-class="{'in active': content == 'eHealthcare'}" >
+                            <div class="panel-body">
+                                <div class="row" >
+                                    <iframe class="c2c" ng-src="{{url}}"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" ng-class="{'in active': content == 'practiceFusion'}">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <iframe class="c2c" ng-src="{{url}}"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" ng-class="{'in active': content == 'simpleLTC'}" >
+                            <div class="panel-body">
+                                <div class="row" >
+                                    <iframe class="c2c" ng-src="{{url}}"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

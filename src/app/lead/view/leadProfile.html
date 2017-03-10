@@ -1,0 +1,246 @@
+
+<div class="content-wrapper">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            LT Care -  Leads            
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="panel-heading border-light">
+            <h4 class="panel-title"><span>Lead Profile</span></h4>
+            <!-- <ct-paneltool class="panel-tools" tool-refresh="load1" tool-expand="tool-expand"><a href="#" class="btn btn-transparent btn-sm" panel-refresh="" tooltip-placement="top" uib-tooltip="Refresh" data-spinner="load1"><i class="fa fa-circle-o"></i></a><a href="#" class="btn btn-transparent btn-sm hidden-sm hidden-xs ng-scope" uib-tooltip="Expand" tooltip-placement="top" ng-click="toggleFullScreen()"><i class="fa fa-expand" ng-show="!isPanelFullscreen"></i><i class="fa fa-compress ng-hide" ng-show="isPanelFullscreen"></i></a></ct-paneltool> -->
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <b style="font-size:18px;">
+                            {{basicData.Name}}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="user-left">
+                    <div class="center">
+                        <h4 class="panel-title">{{basicData.Name}}
+                        </h4>
+                        <div style="margin-top:10px;" flow-init="{singleFile:true}" flow-name="obj.flow"
+                             flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
+                            <div class="user-image">
+                                <div class="thumbnail">
+                                    <!-- <img src="assets/images/default-user.png" alt=""> -->
+                                    <img check-image gender="{{gender}}" ng-src="{{srcImagePath}}{{Image}}">
+                                    <!-- <img src="http://192.168.1.138:1002/{{userInfo.Image}}"> -->
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="table-responsive" >
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">General Information</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Date of Birth</td>
+                                    <td>{{basicData.Birthdate}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Gender</td>
+                                    <td>{{basicData.Gender}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Address</td>
+                                    <td>{{basicData.Address1}}</td>
+                                </tr>
+                                <tr>
+                                    <td>City</td>
+                                    <td>{{basicData.City}}</td>
+                                </tr>
+                                <tr>
+                                    <td>State Code</td>
+                                    <td>{{basicData.StateCode}}</td>
+                                </tr>
+                            <th colspan="3">Payer Name</th>
+                            <tr ng-repeat="payer in leadPayerdata">
+                                <td>
+                                    {{payer.PayerName}}
+                                </td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-8">
+                <div class="panel panel-white">
+                    <div class="panel-heading">
+                        <h4 class="panel-title" style="margin-left:-9px">Diagnosis</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" ng-show="noLeadDiagnosisDataFoundRoot" >
+                            <div class="col-xs-12">
+                                <input type="text" class="form-control margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchLeaderDiagnosis" style="" ng-keypress="($event.which === 13) ? searchByLeaderDiagnosis(searchLeaderDiagnosis) : 0">
+                            </div>
+                        </div>
+                        <div class="row" ng-show="noLeadDiagnosisDataFound">
+                            <div class="col-xs-12">
+                                <h4 class="panel-title">No results found.</h4>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="LeadDiagnosisDataFound">
+                            <div class="col-xs-12 table-responsive">
+                                <table ng-table="leadDiagnosisTableConfig"
+                                       class="table table-striped">
+                                    <tr ng-repeat="diagnosis in $data">
+                                        <td data-title="'ICD Type'"
+                                            sortable="'ICDTYPE'">{{diagnosis.ICDTYPE}}
+                                        </td>
+                                        <td data-title="'ICD'"
+                                            sortable="'ICD'">
+                                            {{diagnosis.ICD}}
+                                        </td>
+                                        <td data-title="'Diagnosis'"
+                                            sortable="'Diagnosis'">
+                                            {{diagnosis.Diagnosis}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-white">
+                    <div class="panel-heading">
+                        <h4 class="panel-title" style="margin-left:-9px">Details</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" ng-show="noLeadDetailsDataFoundRoot" >
+                            <div class="col-xs-12">
+                                <input type="text" class="form-control margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchLeaderDetails" style="" ng-keypress="($event.which === 13) ? searchByLeaderDetails(searchLeaderDetails) : 0">
+                            </div>
+                        </div>
+                        <div class="row" ng-show="noLeadDetailsDataFound">
+                            <div class="col-xs-12">
+                                <h4 class="panel-title">No results found.</h4>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="LeadDetailsDataFound">
+                            <div class="col-xs-12 table-responsive">
+                                <table ng-table="leadDetailsTableConfig"
+                                       class="table table-striped">
+                                    <tr ng-repeat="details in $data">
+                                        <td data-title="'Admitted On'" sortable="'AdmittedOn'">
+                                            {{details.AdmittedOn| date:'MM/dd/yyyy' }}
+                                        </td>
+                                        <td data-title="'Discharged On'"
+                                            sortable="'DischargedOn'">{{details.DischargedOn| date:'MM/dd/yyyy'}}
+                                        </td>
+                                        <td data-title="'Care Setting name'"
+                                            sortable="'CareSettingname'">
+                                            {{details.CareSettingname}}
+                                        </td>
+                                        <td data-title="'Admitting Reason'"
+                                            sortable="'Admittingreason'">
+                                            {{details.Admittingreason}}
+                                        </td>
+                                        <td data-title="'Programname'"
+                                            sortable="'Programname'">
+                                            {{details.Programname}}
+                                        </td>
+                                        <td data-title="'Eligible On'"
+                                            sortable="'EligibleOn'">
+                                            {{details.EligibleOn| date:'MM/dd/yyyy'}}
+                                        </td>
+                                        <td data-title="'Enrolled On'"
+                                            sortable="'EnrolledOn'">
+                                            {{details.EnrolledOn| date:'MM/dd/yyyy'}}
+                                        </td>
+                                        <td data-title="'Program Status'"
+                                            sortable="'ProgramStatus'">
+                                            {{details.ProgramStatus}}
+                                        </td>
+                                        <td data-title="'Program Status Date'"
+                                            sortable="'ProgramStatusDate'">
+                                            {{details.ProgramStatusDate| date:'MM/dd/yyyy'}}
+                                        </td>
+                                        <td data-title="'Task Name'"
+                                            sortable="'TaskName'">
+                                            <a ng-click="newTable(details.TaskId, details.CustomerProgramId)">{{details.TaskName}}</a>
+                                        </td>
+                                        <td data-title="'Task Status'"
+                                            sortable="'TaskStatus'">
+                                            {{details.TaskStatus}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-white" ng-show="isTaskID">
+                    <div class="panel-heading">
+                        <h4 class="panel-title" style="margin-left:-9px">Form Details</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" ng-show="noLeadFormDetailsDataFoundRoot" >
+                            <div class="col-xs-12">
+                                <input type="text" class="form-control margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchLeaderFormDetails" style="" ng-keypress="($event.which === 13) ? searchByLeaderFormDetails(searchLeaderFormDetails) : 0">
+                            </div>
+                        </div>
+                        <div class="row" ng-show="noLeadFormDetailsDataFound">
+                            <div class="col-xs-12">
+                                <h4 class="panel-title">No results found.</h4>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="LeadFormDetailsDataFound">
+                            <div class="col-xs-12 table-responsive">
+                                <table ng-table="leadFormDetailsTableConfig"
+                                       class="table table-striped">
+                                    <tr ng-repeat="formDetails in $data">
+                                        <td data-title="'Form Name'"
+                                            sortable="'FormName'">{{formDetails.FormName}}
+                                        </td>
+                                        <td data-title="'Field Name'"
+                                            sortable="'FieldName'">
+                                            {{formDetails.FieldName}}
+                                        </td>
+                                        <td data-title="'Field Value'"
+                                            sortable="'FieldValue'">
+                                            {{formDetails.FieldValue}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>  

@@ -1,0 +1,75 @@
+<section class="content" ng-controller="censusTimeline">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row marginTop" ng-show="noPatientCensusDataFoundRoot">
+        <div class="col-sm-3" id="censusText">
+            <input type="text" id="censusSearch" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchCensus" ng-keypress="($event.which === 13)?CensusTimeline(startCensus,endCensus,searchCensus):0">
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="censusStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startCensus" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="censusEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endCensus" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button ng-click="CensusTimeline(startCensus, endCensus, searchCensus)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{censusCount}}</span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="searchCensus = ''; startCensus = ''; endCensus = ''; CensusTimeline('', '', '')">
+                Clear
+            </button>
+            <div class="search-count">
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientCensusDataFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="PatientCensusDataFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="censusTableConfig"
+                   class="table table-striped ">
+                <tr ng-repeat="census in $data">
+                    <td data-title="'Date/Time'" sortable="'Date'">
+                        {{census.Date| date:'MM/dd/yyyy  hh:mm:ss'}}
+                    </td>
+                    <td data-title="'Census Type'" sortable="'Status'">
+                        {{census.Status}}
+                    </td>
+                    <td data-title="'Level Of Care'" sortable="'LevelofCare'">
+                        {{census.LevelofCare}}
+                    </td>
+                    <td data-title="'Facility'" sortable="'Facility'">
+                        {{census.Facility}}
+                    </td>
+                    <td data-title="'Unit'" sortable="'Unit'">
+                        {{census.Unit}}
+                    </td>
+                    <td data-title="'Room'" sortable="'Room'">
+                        {{census.Room}}
+                    </td>
+                    <td data-title="'Beds'" sortable="'Beds'">
+                        {{census.Beds}}
+                    </td>
+                    <td data-title="'Payer'" sortable="'Payer'">
+                        {{census.Payer}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,62 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Finance 360
+            <small>All Clients</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li class="">Finance 360</li>
+            <li class="active">All Clients</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div ng-if="loader">
+            <div class="loader">
+            </div>
+        </div>
+        <div class="row margin-row">
+            <div class="col-md-2 col-lg-3 col-sm-3 col-xs-3 searchInClinical">
+                <div class="form-control">
+                    <input type="text" placeholder="Search" ng-model="searchFinance" ng-keypress="($event.which === 13) ? searchByFinanceName(searchFinance) : 0"></input>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-2 col-xs-2 search-count">
+                <button class="btn btn-primary" ng-click="searchByFinanceName(searchFinance)">Search</button>
+                <span  class="search-textmsg">{{countedRecords}}</span>
+                <button  type="button" name="clear" class="btn btn-primary clear-margin" ng-click="searchFinance = null;searchByFinanceName()">
+                    Clear
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div id="allClient-{{$index + 1}}" class="col-md-4 clientAlign"  ng-repeat="finance in financeProfiles">
+                    <div ng-if="$last" ng-init="alignFix()"></div>
+                    <div class="pad15">
+                        <div ng-click="showFinanceClient(finance.PatientId)" class="thumb-icon1">
+                            <img height='110' width='100' check-image gender="{{finance.GenderFull}}" ng-src="{{srcImagePath}}{{finance.Image}}" class="img-responsive img-thumbnail"> 
+                        </div>
+                        <div class="thumb-contant">
+                            <h3 id="describe-user" class='name-color' ng-click="showFinanceClient(finance.PatientId)">{{finance.FirstName}} {{finance.LastName}}</h3>
+                            <div class="text-small margin-bottom-5">
+                                <b class= "dark-field">Patient Id:</b> {{finance.MPatientId}}
+                            </div>
+                            <div class="text-small margin-bottom-5">
+                                <b class= "dark-field">Gender:</b> {{finance.GenderFull}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <uib-pagination ng-if="financeProfiles" ng-show="countedRecords > itemPerPage" class="pagination-sm" total-items="countedRecords" ng-model="currentPage" max-size="maxSize" boundary-links="true" force-ellipses="true" ng-click="getNewFinanceProfiles(currentPage, searchFinance)" rotate="false" items-per-page="itemPerPage">
+            </uib-pagination>
+            <div class="row" ng-show="noDataFound">
+                <div class="col-xs-12">
+                    <h4 class="panel-title">No result found. </h4>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

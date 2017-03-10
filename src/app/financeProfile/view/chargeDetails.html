@@ -1,0 +1,167 @@
+<section class="content"  ng-controller="chargeCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3" id="payerText">
+            <div class="form-control">
+                <input type="text" placeholder="Search" ng-model="searchCharge" ng-keypress="($event.which === 13) ? chargeDetails(startCharge, endCharge, searchCharge) : 0"></input>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="startPayerId" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" max-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startCharge" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="endPayerId" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endCharge" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-2 search-count">
+            <button type="button" class="btn btn-primary " ng-click="chargeDetails(startCharge, endCharge, searchCharge)" >
+                Search
+            </button>
+            <span  class="search-textmsg">{{chargeCount}}</span>
+            <button  type="button" name="clear" class="btn btn-primary clear-margin" ng-click="searchCharge = null;chargeDetails('', '', '')">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="nochargeDetailsFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="chargeDetailsFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="chargeDetailsDataTableConfig" class="table table-striped">
+                <tr ng-repeat="charge in $data">
+                    <td data-title="'Level Of Care'" sortable="'LevelOfCare'">                                                                      {{charge.LevelOfCare}}
+                    </td> 
+                    <td data-title="'Payer Name'" sortable="'PayerName'">                                                                      {{charge.PayerName}}
+                    </td>
+                    <td data-title="'Charge Type 2'" sortable="'ChargeType2'">                                                                      {{charge.ChargeType2}}
+                    </td>
+                    <td data-title="'Service Begin Date'" sortable="'ServiceBeginDate'">                                                           {{charge.ServiceBeginDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Service End Date'" sortable="'ServiceEndDate'">                                                    {{charge.ServiceEndDate|date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Transaction Date'" sortable="'TransactionDate'">                                                                      {{charge.TransactionDate|date:'MM/dd/yyyy'	}}
+                    </td>
+                    <td data-title="'Revenue Amount'" sortable="'RevenueAmount'">                                                                      {{charge.RevenueAmount}}
+                    </td>
+                    <td data-title="'WriteOff Amount'" sortable="'WriteOffAmount'">                                                                      {{charge.WriteOffAmount}}
+                    </td>
+                    <td data-title="'Copay Amount'" sortable="'CopayAmount'">                                                                      {{charge.CopayAmount}}
+                    </td>
+                    <td data-title="'Quantity'" sortable="'Quantity'">                                                                      {{charge.Quantity}}
+                    </td>
+                    <td data-title="'Days'" sortable="'Days'">                                                                      {{charge.Days}}
+                    </td>
+                    <td data-title="'Rate'" sortable="'Rate'">                                                                      {{charge.Rate}}
+                    </td>
+                    <td data-title="'Paid In Full Date'" sortable="'PaidInFullDate'">                                                        {{charge.PaidInFullDate}}
+                    </td> 
+                    <td data-title="'Revenue Code'" sortable="'RevenueCode'">                                                                      {{charge.RevenueCode}}
+                    </td> 
+                    <td data-title="'Balance '" sortable="'Balance'">                                                                      {{charge.Balance}}
+                    </td>
+                    <td data-title="'Cash Payments'" sortable="'CashPayments'">                                                                      {{charge.CashPayments}}
+                    </td>
+                    <td data-title="'Adjustments'" sortable="'Adjustments'">                                                                      {{charge.Adjustments}}
+                    </td>
+                    <td data-title="'Refunds'" sortable="'Refunds'">                                                                      {{charge.Refunds}}
+                    </td> 
+                    <td data-title="'Source System'" sortable="'DbName'">                                                                      {{charge.DbName}}
+                    </td> 
+                    <td data-title="'More Info'">
+                        <button ng-click="flagsModal(charge)" ng-mouseenter="mouseOverModal(charge)" ng-mouseleave="closeHoverPopup()"> <span class="fa fa-fw fa-info-circle"></span></button>
+                    </td>
+                </tr>
+            </table>
+            <!-- Modal start -->
+            <div role="dialog" class="modal" id="flagModal" ng-show="flagPopUp" style="display:block;"
+                 >
+                <div class="modal-dialog">
+                    <!--                    Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Charge Flag Info</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="popupBoldFont col-xs-12 table-responsive ">
+                                    <table>
+                                        <tr>
+                                            <td class="blackcolor">Is Special Rate Used:</td>
+                                            <td>{{displayFlagDetails.IsSpecialRateUsed}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Is Pre bill:</td>
+                                            <td>{{displayFlagDetails.IsPrebill}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Is Recurring Ancillary:</td>
+                                            <td>{{displayFlagDetails.IsRecurringAncillary}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Is Primary Payer:</td>
+                                            <td>{{displayFlagDetails.IsPrimaryPayer}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Is Coinsurance Payer</td>
+                                            <td>{{displayFlagDetails.IsCoinsurancePayer}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Is Patient Liability Payer:</td>
+                                            <td>{{displayFlagDetails.IsPatientLiabilityPayer}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Is Hospital Leave</td>
+                                            <td>{{displayFlagDetails.IsHospitalLeave}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Is Therapeutic Leave:</td>
+                                            <td>{{displayFlagDetails.IsTherapeuticLeave}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Is Posted:</td>
+                                            <td>{{displayFlagDetails.IsPosted}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Is Active Charge:</td>
+                                            <td>{{displayFlagDetails.IsActiveCharge}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Is Reversal:</td>
+                                            <td>{{displayFlagDetails.IsReversal}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Is Paid In Full:</td>
+                                            <td>{{displayFlagDetails.IsPaidInFull}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Is Copay Amount Required:</td>
+                                            <td>   {{displayFlagDetails.IsCopayAmountRequired}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button ng-click="flagClosePopup()" class="btn btn-primary btn-close" type="button">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

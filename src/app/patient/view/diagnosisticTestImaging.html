@@ -1,0 +1,67 @@
+<section class="content"  ng-controller="diagnosisticTestImagingCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row marginTop" ng-show="noPatientDiagnosticTestsImagingDataFoundRoot">
+        <div class="col-sm-3"  id="RadiologyText">
+            <input type="text" id="searchRadiology" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchpatientDiagnosticTestsImaging" ng-keypress="($event.which === 13)?DiagnosticTestsRad(startRadiology,endRadiology,searchpatientDiagnosticTestsImaging):0">
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="radiologyStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startRadiology" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="radiologyEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endRadiology" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button ng-click="DiagnosticTestsRad(startRadiology, endRadiology, searchpatientDiagnosticTestsImaging)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{radCount}}</span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="searchpatientDiagnosticTestsImaging = ''; startRadiology = ''; endRadiology = ''; DiagnosticTestsRad('', '', '')">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientDiagnosticTestsImagingDataFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="PatientDiagnosticTestsImagingDataFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="patientDiagnosticTestsImagingDatasTableConfig"
+                   class="table table-striped">
+                <tr ng-repeat="patientcDiagnosticTestsImaging in $data">
+                    <td data-title="'Order Datetime'"  sortable="'OrderDatetime'">
+                        {{patientcDiagnosticTestsImaging.OrderDateTime| date:'MM/dd/yyyy h:mma'}}
+                    </td>
+                    <td data-title="'ServiceID Name'" sortable="'ServiceIDName'">
+                        {{patientcDiagnosticTestsImaging.ServiceIDName}}
+                    </td>
+                    <td data-title="'Value Type'" sortable="'ValueType'">
+                        {{patientcDiagnosticTestsImaging.ValueType}}
+                    </td>
+                    <td data-title="'Observation Name'" sortable="'ObservationName'">
+                        {{patientcDiagnosticTestsImaging.ObservationName}}
+                    </td>
+                    <td data-title="'Observation Value'" sortable="'ObservationValue'">
+                        {{patientcDiagnosticTestsImaging.ObservationValue}}
+                    </td>
+                    <td data-title="'Result Status'" sortable="'ResultStatus'">
+                        {{patientcDiagnosticTestsImaging.ResultStatus}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

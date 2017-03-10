@@ -1,0 +1,68 @@
+<section class="content"  ng-controller="writeOffCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3" id="payerText">
+            <div class="form-control">
+                <input type="text" placeholder="Search" ng-model="searchWriteOffPatient" ng-keypress="($event.which === 13)?writeOff(startWriteOff,endWriteOff,searchWriteOffPatient):0"></input>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date financeClients_date">
+                        <input type="text" id="startwriteOff" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startWriteOff" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date financeClients_date">
+                        <input type="text" id="endwriteOff" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endWriteOff" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-2 search-count">
+            <button type="button" class="btn btn-primary"  ng-click="writeOff(startWriteOff, endWriteOff, searchWriteOffPatient)" >
+                Search
+            </button>
+            <span  class="search-textmsg">{{writeOffCount}}</span>
+            <button type="button" id="" name="clear" class="btn btn-primary clear-margin" ng-click="startWriteOff = null; endWriteOff = null; searchWriteOffPatient = null; writeOff('', '', '')">Clear</button>
+        </div>
+    </div>
+    <div class="row" ng-show="noWriteOffFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="WriteOffFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="writeOffDataTableConfig" class="table table-striped">
+                <tr ng-repeat="writeOff in $data">
+                    <td data-title="'Payer Name'" sortable="'PayerName'">                                                                      {{writeOff.PayerName}}
+                    </td>
+                    <td data-title="'Cash Receipt Date'" sortable="'CashReceiptDate'">                                                           {{writeOff.CashReceiptDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Reference'" sortable="'Reference'">                                                                      {{writeOff.Reference}}
+                    </td>
+                    <td data-title="'Cash Receipt Amount'" sortable="'CashReceiptAmount'">                                                                      {{writeOff.CashReceiptAmount}}
+                    </td>
+                    <td data-title="'Notes'" sortable="'Notes'">                                                           {{writeOff.Notes}}
+                    </td>
+                    <td data-title="'CreatedOn'" sortable="'CreatedOn'">                                                                      {{writeOff.CreatedOn| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Distributed Amount'" sortable="'DistributedAmount'">                                                                      {{writeOff.DistributedAmount}}
+                    </td>
+                    <td data-title="'Credit GLAccount Name'" sortable="'CreditGLAccountName'">                                                                      {{writeOff.CreditGLAccountName}}
+                    </td>
+                    <td data-title="'Adjustment GLAccount Name'" sortable="'AdjustmentGLAccountName'">                                                                      {{writeOff.AdjustmentGLAccountName}}
+                    </td>
+                    <td data-title="'Source System'" sortable="'DBName'">                                                                      {{writeOff.DBName}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

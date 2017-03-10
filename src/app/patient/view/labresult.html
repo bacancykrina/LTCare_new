@@ -1,0 +1,112 @@
+<section class="content"  ng-controller="labResultCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientLabResultsDataFoundRoot">
+        <div class="col-sm-3" id="labText">
+            <input type="text" id="searchLab" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchLabResult" ng-keypress="($event.which === 13)?labResults(startLab,endLab,searchLabResult,selectedFlag):0">
+        </div>
+        <div class="col-sm-4">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date clients_date">
+                        <input type="text" id="labStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startLab" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date clients_date">
+                        <input type="text" id="labEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endLab" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 sm-3-custom" ng-init="labDrpdwn()">
+            <div>
+                <span class="clip-select">
+                    <select ng-model="selectedFlag" ng-change="labResults(startLab, endLab, searchLabResult, selectedFlag)">
+                        <option value="{{item}}" ng-repeat="item in LabDropdown" >{{item}}</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div>
+            <button ng-click="labResults(startLab, endLab, searchLabResult, selectedFlag)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{labCount}}</span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="searchLabResult = ''; startLab = ''; endLab = ''; selectedFlag = 'All AbnormalFlag'; labResults('', '', '', '')">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientLabResultsDataFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="PatientLabResultsDataFound">
+        <div id="labChartPopup"  style="display: none;position: absolute; top: 112px;left: 48%; z-index: 999999;background: white; height: 380px;width: 300px;">
+            <div style="float: right">       
+                <button ng-click="closePopupOflastTrendData()" class="btn btn-default btn-close-labresult"
+                        type="button">X
+                </button> 
+            </div>
+            <div ng-if="loader1">
+                <div class="box box-danger">
+                    <div class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+            <highchart ng-if="!loaderShow" id="chartForLabResult" config="chartConfigLabResult"></highchart>
+            <h5> <b>{{headerSmallLabPopup}} - [{{startLabDate| date:'yyyy-MM-dd'}} - {{endLabDate| date:'yyyy-MM-dd'}}]</b></h5>
+            <div class="col-xs-12" ng-show="labTrendData">
+                <h4 style="text-align:center;margin-top: -100px;">No results found.</h4>
+            </div>
+        </div>
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="labResultTableConfig"
+                   class="table table-striped">
+                <tr ng-repeat="labResult in $data">
+                    <td data-title="'Order Date'" sortable="'OrderDatetime'">
+                        {{labResult.OrderDatetime| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Service Name'" sortable="'ServiceIDName'">
+                        {{labResult.ServiceIDName}}
+                    </td>
+                    <td data-title="'Value Type'" sortable="'ValueType'">
+                        {{labResult.ValueType}}
+                    </td>
+                    <td data-title="'Observation'" sortable="'ObservationName'">
+                        {{labResult.ObservationName}}
+                    </td>
+                    <td ng-class="(labResult.AbnormalFlag != '') ? 'lab-red' : 'lab-blue'" data-title="'Observation Value'"
+                        sortable="'ObservationValue'">
+                        <span ng-if="labResult.AbnormalFlag == ''"><a ng-if="labResult.Flag == 1" ng-click="DataforLabchart = []; lastTrendData(labResult.OrderDatetime, labResult.ServiceIDName, labResult.ObservationName);"><b style="font-size:12px">{{labResult.ObservationValue}}</b></a>
+                            <span ng-if="labResult.Flag == 0" style="color:#58748b">{{labResult.ObservationValue}}</span> 
+                        </span>
+                        <span ng-if="labResult.AbnormalFlag != ''">
+                            <span class="lab-red">
+                                <a ng-if="labResult.Flag == 1" ng-click="DataforLabchart = []; lastTrendData(labResult.OrderDatetime, labResult.ServiceIDName, labResult.ObservationName);" style="color:red">
+                                    <b style="font-size:12px">{{labResult.ObservationValue}}</b>
+                                </a>
+                                <span ng-if="labResult.Flag == 0" style="color:red">{{labResult.ObservationValue}}</span> 
+                            </span>
+                        </span>
+                    </td>
+                    <td data-title="'Reference Range'" sortable="'ReferenceRange'">
+                        {{labResult.ReferenceRange}}
+                    </td>
+                    <td data-title="'Result Status'" sortable="'ResultStatus'">
+                        {{labResult.ResultStatus}}
+                    </td>
+                    <td  data-title="'Abnormal Flag'" sortable="'AbnormalFlag'">
+                        {{labResult.AbnormalFlag}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

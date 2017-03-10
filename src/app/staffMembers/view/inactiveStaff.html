@@ -1,0 +1,61 @@
+<!-- Main content -->
+<section class="content" ng-controller="inactiveStaffCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row margin-row">
+        <div class="col-md-2 col-lg-3 col-sm-3 col-xs-3">
+            <div class="form-control">
+                <input type="text" placeholder="Search" ng-model="searchStaff" ng-keypress="($event.which === 13) ? searchInactiveStaff(searchStaff,inactiveStaff) : 0"></input>
+            </div>
+        </div>
+        <div class="col-sm-2 physicianInClinical">
+            <div class="row vitalTable">
+                <span class="clip-select">
+                    <select id="inactivestaff" ui-select2="inactiveStaffOptions" ng-model="inactiveStaff" data-placeholder="Pick a number" style='width:180px;' ng-change="searchInactiveStaff(searchStaff, inactiveStaff)">
+                        <option value="{{inactive}}" ng-repeat="inactive in inactiveDropDown" >{{inactive}}</option> 
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-2 search-count">
+            <button type="button" class="btn btn-primary" ng-click="searchInactiveStaff(searchStaff,inactiveStaff)">
+                Search
+            </button>
+            <button  type="button" name="clear" class="btn btn-primary clear-margin" ng-click="searchStaff = null;inactiveStaff = 'Select Specialization';searchInactiveStaff();clearInactiveStaff();">
+                Clear
+            </button>
+            <span class="search-textmsg">{{countedRecords}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 staffalign" >
+            <div id="allStaff-{{$index + 1}}" class="col-md-4 clientAlign"  ng-repeat="staff in inactiveStaffList">
+                <div ng-if="$last"></div>
+                <div class="pad15">
+                    <div ng-click="showStaff(staff.PersonId)" class="thumb-icon1">
+                        <img src="assets/images/default-user.png" alt=""> 
+                        <img height='110' width='100' check-image gender="{{staff.GenderFull}}" ng-src="{{srcImagePath}}{{staff.Image}}" class="img-responsive img-thumbnail"> 
+                    </div>
+                    <div class="thumb-contant">
+                        <h3 id="describe-user" class="name-color" ng-click="showStaff(staff.PersonId)">{{staff.FirstName}} {{staff.LastName}}</h3>
+                        <div class="text-small margin-bottom-5">
+                            <b class= "dark-field"> Email:</b> {{staff.Email}}
+                        </div>
+                        <div class="text-small margin-bottom-5">
+                            <b class= "dark-field">Specialization:</b> {{staff.Specialization}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <uib-pagination ng-if="inactiveStaffList" ng-show="countedRecords > itemPerPage" class="pagination-sm" total-items="countedRecords" ng-model="currentPage" max-size="maxSize" boundary-links="true" force-ellipses="true" ng-click="getNewPageData(currentPage,inactiveStaff)" rotate="false" items-per-page="itemPerPage">
+            </uib-pagination>
+            <div class="row" ng-show="noInActiveDataFound">
+                <div class="col-xs-12">
+                    <h4 class="panel-title noResult">No result found. </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

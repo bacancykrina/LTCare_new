@@ -1,0 +1,82 @@
+<section class="content"  ng-controller="mdsCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientMDSDataFoundRoot">
+        <div class="col-sm-3"  id="MDSText">
+            <input type="text" id="MDSSearch" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchpatientMDSDatas" ng-keypress="($event.which === 13)?mds(startMDS,endMDS,searchpatientMDSDatas):0">
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="MDSStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startMDS" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date..." ng-keypress="($event.which === 13)?searchBypatientMDSDatas(startMDS,endMDS,searchpatientMDSDatas):0">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="MDSEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endMDS" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button ng-click="mds(startMDS, endMDS, searchpatientMDSDatas)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{MDSCount}}</span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="searchpatientMDSDatas = ''; startMDS = ''; endMDS = ''; mds('', '', '')">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientMDSDataFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="PatientMDSDataFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="patientMDSDatasTableConfig"
+                   class="table table-striped">
+                <tr ng-repeat="patientMDSData in $data">
+                    <td data-title="'Effective Date'" sortable="'EffectiveDate'">
+                        {{patientMDSData.EffectiveDate| date:'MM/dd/yyyy '}}
+                    </td>
+                    <td data-title="'OBRA Reason'" sortable="'OBRAReason'">
+                        {{patientMDSData.OBRAReason}}
+                    </td>
+                    <td data-title="'PPS Reason'" sortable="'PPSReason'">
+                        {{patientMDSData.PPSReason}}
+                    </td>
+                    <td data-title="'Code'" sortable="'Code'">
+                        {{patientMDSData.Code}}
+                    </td>
+                    <td data-title="'I/M/C'" sortable="'IMC'">
+                        {{patientMDSData.IMC}}
+                    </td>
+                    <td data-title="'Corr#'" sortable="'Corr'">
+                        {{patientMDSData.Corr}}
+                    </td>
+                    <td data-title="'MC '" sortable="'MC'">
+                        {{patientMDSData.MC}}
+                    </td>
+                    <td data-title="'Non-Ther MC'" sortable="'NonTherMC'">
+                        {{patientMDSData.NonTherMC}}
+                    </td>
+                    <td data-title="'ADL'" sortable="'ADL'">
+                        {{patientMDSData.ADL}}
+                    </td>
+                    <td data-title="'MA'" sortable="'MA'">
+                        {{patientMDSData.MA}}
+                    </td>
+                    <td data-title="'ADL1'" sortable="'ADL1'">
+                        {{patientMDSData.ADL1}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

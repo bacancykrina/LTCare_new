@@ -1,0 +1,485 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Administrative portal</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Administrative</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid container-fullw padding-bottom-10">
+            <div class="row" ng-init="clients()">
+                <div class="col-sm-4">
+                    <div class="small-box bg-teal-gradient"> 
+                        <div class="panel-body">
+                            <div class="space10">
+                                <h5 class="text-bold text-extra-small text-dark-transparent text-uppercase no-margin">Total Clients (Unique) 
+                                </h5>
+                                <div class="block margin-top-15 margin-bottom-10 text-white text-center">
+                                    <span class="counter" count-to="5635" value="0" duration="1" filter="number">{{totalClient| number}}</span>
+                                </div>
+                                <div class="pull-left">
+                                    <h5 class="label partition-azure margin-top-10 margin-left-6 margin-right-5">Male</h5>
+                                    <span >{{geneder[1].Percentage}}%</span>
+                                </div>
+                                <div class="pull-right">
+                                    <h5 class="label partition-pink margin-top-10 margin-right-5">Female</h5>
+                                    <span>{{geneder[0].Percentage}}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4" ng-init='activeCensus()'>
+                    <div class="small-box bg-teal-gradient">
+                        <div class="panel-body">
+                            <div class="space10">
+                                <h5 class="text-bold text-extra-small text-dark-transparent text-uppercase no-margin">Active Clients (In All Systems) 
+                                </h5>
+                                <div class="block margin-top-15 margin-bottom-10 text-white text-center">
+                                    <span class="counter" count-to="5635" value="0" duration="1" filter="number">{{TotalCount| number}}</span>
+                                </div>
+                                <div class="pull-left">
+                                    <h5 class="label partition-azure margin-top-10 margin-left-6 margin-right-5">Male</h5>
+                                    <span >{{malePercentage}}%</span>
+                                </div>
+                                <div class="pull-right">
+                                    <h5 class="label partition-pink margin-top-10 margin-right-5">Female</h5>
+                                    <span>{{femalePercentage}}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="small-box bg-teal-gradient">
+                        <div class="panel-body">
+                            <div class="space10">
+                                <h5 class="text-bold text-extra-small text-dark-transparent text-uppercase no-margin">Inactive Clients (In All Systems) 
+                                </h5>
+                                <div class="block margin-top-15 margin-bottom-10 text-white text-center">
+                                    <span class="counter" count-to="5635" value="0" duration="1" filter="number">{{APICount| number}}</span>
+                                </div>
+                                <div class="pull-left">
+                                    <h5 class="label partition-azure margin-top-10 margin-left-6 margin-right-5">Male</h5>
+                                    <span >{{geneder[1].Percentage}}%</span>
+                                </div>
+                                <div class="pull-right">
+                                    <h5 class="label partition-pink margin-top-10 margin-right-5">Female</h5>
+                                    <span>{{geneder[0].Percentage}}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="panel panel-white no-radius no-border">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12 text-center"><h4 class="text-dark"> Census</h4></div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div ng-init="censusChart()">
+                                        <highchart id="censusChart" config="censusConfig"></highchart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-white no-radius no-border">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="" ng-init="activeCensus()">
+                                        <div class="col-sm-12 text-center"><h4 class="text-dark active-title">Active Census</h4></div>
+                                        <div class="col-sm-3 text-center" ng-repeat="c in activeCensusData">
+                                            <div class="rate">
+                                                <span class="value text-bold bg-color" data-toggle="tooltip" title="{{c.List_Output}}">{{c.TotalCount|number}}</span>
+                                            </div>
+                                            <small class="text-muted">{{c.dbname}}</small>
+                                        </div>
+                                    </div>
+                                    <div class="margin-top-15" ng-init="inActiveCensus()">
+                                        <div class="col-sm-12 text-center"><h4 class="text-dark">Inactive Census</h4></div>
+                                        <div class="col-sm-3 text-center" ng-repeat="c in chartDataType">
+                                            <div class="rate">
+                                                <span class="value text-bold bg-color" data-toggle="tooltip" title="{{c.List_Output}}">{{c.TotalCount|number}}</span>
+                                            </div>
+                                            <small class="text-muted">{{c.dbname}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="row">
+                        <div class="col-sm-6 panel-white" ng-init="admission90Days()">
+                            <div class="panel panel-green no-border no-radius">
+                                <div class="panel-body">
+                                    <div class="space10 padding-15">
+                                        <h5 class="text-dark-transparent text-center  no-margin">Admissions 90 Days</h5>
+                                        <h2 class="text-white margin-top-15 margin-bottom-10">{{admissions90Days}}</h2>
+                                    </div>
+                                    <div>
+                                        <highchart id="admissionChart" config="admission90DaysConfig"></highchart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 panel-white" ng-init="discharge90Days()">
+                            <div class="panel panel-azure no-border no-radius">
+                                <div class="panel-body">
+                                    <div class="space10 padding-15">
+                                        <h5 class="text-dark-transparent text-center no-margin"> Discharges 90 Days</h5>
+                                        <h2 class="text-white margin-top-15 margin-bottom-10">{{discharges90Days}}</h2>
+                                    </div>
+                                    <div>
+                                        <highchart id="dischargeChart" config="dischargeDaysConfig"></highchart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 panel-white"  ng-init="kpiDiagnosisMix()">
+                            <div class="panel panel-purple no-border no-radius">
+                                <div class="panel-body">
+                                    <div class="space10 padding-15">
+                                        <h5 class="text-dark-transparent text-center no-margin"> Top 5  Diagnosis - ICD9 <br>(All Systems)
+                                        </h5>
+                                    </div>
+                                    <div>
+                                        <highchart id="kpiDiagnosisChart" config="kpiDiagnosisMixConfig"></highchart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 panel-white"  ng-init="kpiICD10()">
+                            <div class="panel panel-pink no-border no-radius">
+                                <div class="panel-body">
+                                    <div class="space10 padding-15">
+                                        <h5 class="text-dark-transparent text-center no-margin">Top 5  Diagnosis - ICD10 (All Systems)
+                                        </h5>
+                                    </div>
+                                    <div>
+                                        <highchart id="icd10Chart" config="kpiICD10Config"></highchart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel panel-white panel-scroll no-radius no-border scrollDiv" ng-init="userList()">
+                        <div class="panel-heading border-light">
+                            <h4 class="text-dark" style="float:left;">Users</h4>
+                            <button type="button" class="btn btn-primary pull-right" ng-click="listOfUser()">
+                                Manage User
+                            </button>
+                        </div>
+                        <div class="panel-scroll">
+                            <div class="row" >
+                                <div class="col-sm-12">
+                                    <div>
+                                        <table class="table no-margin">
+                                            <tbody>
+                                                <tr ng-repeat="u in userList| limitTo : 5">
+                                                    <td class="center"><img alt="image" class="offline" check-image ng-src="{{srcImagePath}}{{u.Image}}"></td>
+                                                    <td>
+                                                        <span>
+                                                            <a href="" >{{u.FirstName| uppercase}} {{u.LastName| uppercase}}</a>
+                                                        </span></td>
+                                                    <td>
+                                                        <span ng-if="u.RoleId == 1" class="label label-success">{{u.RoleName}}</span>
+                                                        <span ng-if="u.RoleId == 2" class="label label-info">{{u.RoleName}}</span>
+                                                        <span ng-if="u.RoleId == 3" class="label label-info">{{u.RoleName}}</span>
+                                                        <span ng-if="u.RoleId == 4" class="label label-info">{{u.RoleName}}</span>
+                                                        <span ng-if="u.RoleId == 5" class="label label-info">{{u.RoleName}}</span>
+                                                        <span ng-if="u.RoleId == 6" class="label label-info">{{u.RoleName}}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body  panel-white text-center" ng-init="">
+                        <h4 class="text-dark text-dark_2">
+                            Thirty Day Transfer Rate
+                        </h4>
+                        <ui-knob value="value" options="options">
+                        </ui-knob>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8" >
+                    <div class="panel panel-white no-radius" id="panelsocial">
+                        <div class="panel-heading border-light">
+                            <h4 class="text-dark">Top 5 Clients Location - Lab Orders</h4>
+                        </div>
+                        <div uib-collapse="panelsocial" class="panel-wrapper">
+                            <div class="panel-body no-padding">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="padding-10 block text-center">
+                                            <p>
+                                                <span class="text-bold">All Time</span>
+                                            </p>
+                                            <div ng-init="top5Location()">
+                                                <div>
+                                                    <highchart id="top5LocationChart" config="top5LocationConfig"></highchart>
+                                                </div>
+                                                <div class="text-center text-bold noResult" ng-show="noTop5Location">Result Not found</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="padding-10 block text-center">
+                                            <p>
+                                                <span class="text-bold" >90 Days</span>
+                                            </p>
+                                            <div ng-init="location90Days()">
+                                                <div>
+                                                    <highchart id="location90DaysChart" config="location90DaysConfig"></highchart>
+                                                </div>
+                                                <div class="text-center text-bold noResult" ng-show="noLocationDays">Result Not found</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="box box-warning admit-padding">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Top 2 Admit Source</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body" ng-init="admitSource()">
+                            <div ng-repeat="data in tableList|limitTo:2">
+                                <v-accordion class="vAccordion--default" ng-show="admit">
+                                    <v-pane expanded>
+                                        <v-pane-header disabled class="text-bold">
+                                            <h5>{{data.AdmitSourceDescription}}  -  {{data.Admissions| number}}</h5>
+                                        </v-pane-header>
+                                        <v-pane-content>
+                                            <table class="table margin-bottom-5">
+                                                <thead>
+                                                    <tr class="text-bold">
+                                                        <td> Facility</td>
+                                                        <td>Count</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="value1 in data.repeatData">
+                                                        <td>{{value1.data}}</td>
+                                                        <td>{{value1.value}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="text-center text-bold noResult" ng-show="admit1">Result Not found</div>
+                                        </v-pane-content>
+                                    </v-pane>
+
+                                </v-accordion>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12" >
+                    <div class="panel panel-white no-radius" id="panelsocial">
+                        <uib-tabset class="clearfix padding-5 space5 tabbable no-padding no-margin">
+                            <uib-tab heading="Admit Location" class="padding-top-5">
+                                <div class="container" ng-init='admitLocation()'>
+                                    <div class="col-sm-12 row">
+                                        <div class="col-xs-10 table-responsive">
+                                            <table ng-table="admitDataTableConfig" class="table table-striped">
+                                                <tr ng-repeat="admit in $data">
+                                                    <td data-title="'DB Name'" sortable="'DBName'">
+                                                        {{admit.DBName}}       
+                                                    </td>
+                                                    <td data-title="'Admit Location'" sortable="'AdmitLocation'">
+                                                        {{admit.AdmitLocation}}       
+                                                    </td>
+                                                    <td data-title="'Facilty Name'" sortable="'FaciltyName'">
+                                                        {{admit.FaciltyName}}       
+                                                    </td>
+                                                    <td data-title="'Admissions'" sortable="'Admissions'">
+                                                        {{admit.Admissions}}       
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="text-center text-bold noResult" ng-show="noAdmitLocationData">Result Not found</div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab heading="Discharged To" class="padding-top-5">
+                                <div class="container" ng-init="dischargeLocation()">
+                                    <div class="col-sm-12 row">
+                                        <div class="col-xs-10 table-responsive">
+                                            <table ng-table="dischargeDataTableConfig" class="table table-striped">
+                                                <tr ng-repeat="discharge in $data">
+                                                    <td data-title="'DB Name'" sortable="'DBName'">
+                                                        {{discharge.DBName}}       
+                                                    </td>
+                                                    <td data-title="'Discharge Location'" sortable="'DischargeLocation'">
+                                                        {{discharge.DischargeLocation}}       
+                                                    </td>
+                                                    <td data-title="'Facilty Name'" sortable="'FaciltyName'">
+                                                        {{discharge.FaciltyName}}       
+                                                    </td>
+                                                    <td data-title="'Discharges'" sortable="'Discharges'">
+                                                        {{discharge.Discharges}}       
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="text-center text-bold noResult" ng-show="noDischargeLocationData">Result Not found</div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4" ng-init="kpiFacilityAvgAgeGender()">
+                     <div class="panel panel-white no-radius">
+                    <div class="panel-heading border-bottom">
+                        <h4 class="text-dark">Demographics</h4>
+                    </div>
+                    <div class="panel-body">
+                        <h5 class="text-bold text-dark_2 text-ml" >Gender</h5>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="padding-10 text-center demographics_icon">
+                                    <i class="fa fa-female text-pink large-letters"></i>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="padding-10 text-center demographics_icon">
+                                    <i class="fa fa-male text-azure large-letters"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="padding-top-15">
+                            <h5 class="text-bold">Age</h5>
+                            <div ng-repeat="f in femaleData">
+                                <div class="demographic-title">{{f.dbname}}</div>
+                                <div class="progress">
+                                    <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="f.Percentage" role="progressbar" class="progress-bar progress-bar-green">
+                                    </div>
+                                    <span class="ng-binding progress-left">
+                                        {{f.Percentage}}%
+                                    </span>
+                                    <span class="ng-isolate-scope progress-right">
+                                        {{100 - f.Percentage}}%
+                                    </span>
+                                </div>
+                                <span class="average">Average Age:{{f.AverageAge}}</span>
+                                <hr class="process-hr">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="panel panel-white">
+                        <div class="panel-heading border-bottom">
+                            <div class="pull-left col-sm-8">
+                                <h4 class="text-dark">Payer Mix</h4>
+                            </div>
+                        </div>
+                        <div class="panel-body payer-padding" ng-init="payerMix()">
+                            <div class="row" ng-show="payerMixChartView">
+                                <div class="col-sm-12">
+                                    <div class="text-center margin-bottom-15">
+                                        <highchart id="chartPayMix" config="chartConfigPayMix"></highchart>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="text-center text-bold noResult" ng-show="noPayerData">Result Not found</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-white" >
+                        <div class="panel-heading border-bottom">
+                            <h4 class="text-dark " >Patient Admissions, Discharges and Census by Month</h4>
+                        </div>
+                        <div class="panel-wrapper">
+                            <div class="panel-body">
+                                <div ng-init="byMonth()">
+                                    <highchart ng-show="readmissionByMonth" id="chartConfigByMonth" config="chartConfigByMonth"></highchart>
+                                </div>
+                                <div class="text-center text-bold noResult" ng-show="readmissionByMonth1">Result Not found</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-white" >
+                        <div class="panel-heading border-bottom">
+                            <h4 class="text-dark ">Patient Re-Admission Ratio By Facility</h4>
+                        </div>
+                        <div class="panel-wrapper">
+                            <div class="panel-body">
+                                <div ng-init="readmissionByFacility()">
+                                    <highchart id="chartReadmission" config="chartConfigReadmission" ></highchart>
+                                </div>
+                                <div class="text-center text-bold noResult" ng-show="noRatioData">Result Not found</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-white" ng-init="censusRadarChart()">
+                        <div class="panel-heading border-bottom">
+                            <h4 class="text-dark">{{censusMessage}}</h4>
+                        </div>
+                        <div class="panel-wrapper">
+                            <div class="panel-body">
+                                <div>
+                                    <highchart id="censusRadarChart" config="censusConfigRadarChart"></highchart>
+                                </div>
+                                <div class="text-center text-bold noResult" ng-show="noCensusData">Result Not found</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+</div>

@@ -1,0 +1,68 @@
+<section class="content"  ng-controller="idtProgressNoteCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row marginTop" ng-show="noPatientNotesDataFoundRoot">
+        <div class="col-sm-3"  id="noteText">
+            <input type="text" id="noteSearch" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchNotes" ng-keypress="($event.which === 13)?notes(startNote,endNote,searchNotes):0">
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="noteStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" max-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startNote" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="noteEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endNote" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button ng-click="notes(startNote, endNote, searchNotes)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{noteCount}}</span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="searchNotes = ''; startNote = ''; endNote = ''; notes('', '', '')">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientNotesDataFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="PatientNotesDataFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="patientNotesTableConfig" class="table table-striped">
+                <tr ng-repeat="patientNote in $data">
+                    <td data-title="'Note Taken Date'"  sortable="'NoteTakenDate1'">
+                        {{patientNote.NoteTakenDate1| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td ng-if="shortNote == true" ng-click="displayLongNote()" data-title="'Note'"
+                        sortable="'ProgressNote'">
+                        {{patientNote.ShortProgressNote}}
+                    </td>
+                    <td ng-if="shortNote != true" ng-click="displayLongNote()"  data-title="'Note'"
+                        sortable="'ProgressNote'">
+                        {{patientNote.ProgressNote}}
+                    </td>
+                    <td data-title="'Discipline'"  sortable="'Discipline'">
+                        {{patientNote.Discipline}}
+                    </td>
+                    <td data-title="'Name Taken By'" sortable="'NameTakenBy'">
+                        {{patientNote.NameTakenBy}}
+                    </td>
+                    <td data-title="'Source Name'" sortable="'DBName'">
+                        {{patientNote.DBName}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,60 @@
+<div class='content-wrapper'>
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <section class='content-header'>
+        <h1>Dashboard
+            <small>Control panel</small>
+        </h1>
+        <ol class='breadcrumb'>
+            <li><a href='#'><i class='fa fa-dashboard'></i>Home</a></li>
+            <li>Administrative</li>
+            <li class='active'>Manage user</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row addUserPadding" >
+            <button ng-click='addPage()' class="btn btn-primary margin-14">
+                <i class="fa fa-fw fa-plus-square-o"></i> Add System User</button>
+            <div class="col-xs-12" ng-show="noUserDataFound">
+                <h4 class="panel-title">No results found.</h4>
+            </div>
+        </div>
+
+        <div class="row" ng-show="UserDataFound">
+            <div class="col-xs-12 table-responsive">
+                <table ng-table="userDataTableConfig" class="table table-striped">
+
+                    <tr ng-repeat="user in userDetailsList">
+                        <td data-title="userMgntTblHeaders[0].Name">
+                            {{user.FirstName}} {{user.LastName}}
+                        </td>
+                        <td data-title="userMgntTblHeaders[1].Name">
+                            <input type="checkbox" ng-model="userDetailsList[$index]['UserRolesFlag'][1]">
+                        </td>
+                        <td data-title="userMgntTblHeaders[2].Name">
+                            <input type="checkbox" ng-model="userDetailsList[$index]['UserRolesFlag'][2]">
+                        </td>
+                        <td data-title="userMgntTblHeaders[3].Name">
+                            <input type="checkbox" ng-model="userDetailsList[$index]['UserRolesFlag'][3]">
+                        </td>
+                        <td data-title="userMgntTblHeaders[4].Name">
+                            <input type="checkbox" ng-model="userDetailsList[$index]['UserRolesFlag'][4]">
+                        </td>
+                        <td data-title="userMgntTblHeaders[5].Name">
+                            <input type="checkbox" ng-model="userDetailsList[$index]['UserRolesFlag'][5]">
+                        </td>
+                        <td data-title="userMgntTblHeaders[6].Name">
+                            <input type="checkbox" ng-model="userDetailsList[$index]['UserRolesFlag'][6]">
+                        </td>
+                        <td data-title="userMgntTblHeaders[7].Name">
+                            <input type="button" ng-click="updateUserDetails($index);" value="Save">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>

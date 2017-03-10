@@ -1,0 +1,101 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <section class="content-header">
+        <h1>
+            Appointments
+            <small>Book Appointment</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="">Appointments</li>
+            <li class="active">Book Appointment</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                <section class="box ">
+                    <h3 class="text-bold1 pad10"></h3>
+                    <div class="content-body pad30">
+                        <div class="row">
+                            <form action="#" method="post" class="ng-pristine ng-valid-mask ng-invalid ng-invalid-required">
+                                <div class="col-lg-8 col-md-8 col-sm-9 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-1">Name</label>
+                                        <span class="desc"></span>
+                                        <div class="controls">
+                                            <input type="text" id="field-1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-5">Date of Birth</label>
+                                        <span class="desc">e.g. "04/03/2015"</span>
+                                        <div class="controls">
+                                            <input type="text" name="masked" ui-mask="99/99/9999" placeholder="MM/DD/YYYY" class="ng-pristine ng-untouched ng-valid-mask ng-invalid ng-invalid-required" ng-model="mask11" required="">
+                                        </div>
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="form-group col-md-4">
+                                            <label class="form-label" for="field-5">Gender</label>
+                                            <select class="input-md">
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-8">
+                                            <label class="form-label" for="field-1">Service</label>
+                                            <select class="input-md">
+                                                <option value="Dental Care">Dental Care</option>
+                                                <option value="Aging Solutions">Aging Solutions</option>
+                                                <option value="Eye Care">Eye Care</option>
+                                                <option value="Physiotherapy">Physiotherapy</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-5">Date Time</label>
+                                        <span class="desc">e.g. "31/12/2015 12:12"</span>
+                                        <div class="controls">
+                                            <input type="text" name="masked" ui-mask="99/99/9999" placeholder="MM/DD/YYYY hh:mm" class="ng-pristine ng-untouched ng-valid-mask ng-invalid ng-invalid-required" ng-model="mask11" required="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-6">Email</label>
+                                        <div class="controls">
+                                            <input type="email" id="field-61">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-2">PHONE</label>
+                                        <span class="desc">e.g. "(534) 253-5353"</span>
+                                        <div class="controls">
+                                            <input type="text" name="masked" ui-mask="(999) 999-9999" placeholder="(999) 999-9999" class="ng-valid-mask ng-invalid ng-invalid-required ng-touched ng-dirty ng-valid-parse" ng-model="mask1" required="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-6">Brief</label>
+                                        <span class="desc">e.g. "Enter any size of text description here"</span>
+                                        <div class="controls">
+                                            <textarea cols="50" rows="5" id="field-6"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-9 col-xs-12 padding-bottom-30">
+                                    <div class="text-left">
+                                        <button type="button" class="btn btn-primary">Save</button>
+                                        <button type="button" class="btn">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>

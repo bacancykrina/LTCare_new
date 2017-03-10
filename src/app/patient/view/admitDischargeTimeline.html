@@ -1,0 +1,102 @@
+<section class="content"  ng-controller="admitDischargeTimelineCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row" ng-show="noAdmitlineDataFoundRoot" >
+        <div class="col-sm-6" id="admitText">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="admitStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startAdmit" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date..." ng-keypress="($event.which === 13)?searchByAdmitTimeline(startAdmit,endAdmit):0">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="admitEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endAdmit" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button ng-click="searchByAdmitTimeline(startAdmit, endAdmit)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{admitCount}}</span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="startAdmit = null; endAdmit = null; searchByAdmitTimeline()">
+                Clear
+            </button>
+            <div class="search-count">
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="noAdmitlineDataFound" >
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="AdmitlineDataFound">
+        <ul class="timeline-xs margin-top-20 margin-bottom-20" when-scroll-ends="loadAdmitTimelineMore(startAdmit,endAdmit)" style="height:350px;overflow:auto;">
+            <li ng-repeat="data in admitdata" class="timeline-item " ng-class-odd="'success'" ng-class-even="'danger'">
+                <div class="margin-left-15">
+                    <div class="text-muted text-small"   >
+                        <a ng-click="AdmitPopup(data)">{{data.CensusBeginDate|date:'MM/dd/yyyy'}}</a>
+                        <b>{{data.CensusType}}:{{data.PatientStatusCodeDesciption}}</b>
+                        <p>{{data.FacilityName}}</p>
+                        <p>{{data.DBName}}</p>
+                        <p>{{data.DischargeLocation}}</p>
+                    </div>
+                </div>
+                <!-- ng-show="AdmitTimelineDataFound" -->
+                <div>
+                    <div role="dialog" class="modal main_popup" id="admitModal" ng-show="admitTimelinePopup">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Admit Timeline Info</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-xs-12 table-responsive">
+                                            <table >
+                                                <tr>
+                                                    <td class="text-bold">Census Type Description:</td>
+                                                    <td>{{datas.CensusTypeDescription}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="text-bold">Level Of Care Description:</td>
+                                                    <td>{{datas.LevelOfCareDescription}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="text-bold">Building Name:</td>
+                                                    <td>{{datas.BuildingName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="text-bold">Unit Name:</td>
+                                                    <td>{{datas.UnitName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="text-bold">Room Name:</td>
+                                                    <td>{{datas.RoomName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-bold">Discharge Location:</td>
+                                                    <td>{{datas.DischargeLocation}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" >
+                                    <button ng-click="closeAdmitTimelinePopup()" class="btn btn-default btn-close" type="button">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>

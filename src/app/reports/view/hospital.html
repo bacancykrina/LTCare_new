@@ -1,0 +1,96 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <section class="content-header">
+        <h1>
+            Reports
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Clients</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">  
+        <div class="row">
+            <div class="col-sm-12 col-md-12" ng-controller="hospitalCtrl">
+                <div class="panel panel-white">
+                    <div class="panel-heading border-bottom">
+                        <h4 class="text-dark ">New Hospital Admissions</h4>
+                    </div>
+                    <div class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12 radarCensus">
+                                    <highchart id="ageWiseResidentChart" config="hospitalAdmissionConfigChart"></highchart>
+                                </div>
+<!--                                <div class="text-center text-bold" ng-if="ageResidentViewFlag">Result Not found</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12" ng-controller="costPerClientCtrl">
+                <div class="panel panel-white">
+                    <div class="panel-heading border-bottom">
+                        <h4 class="text-dark ">Cost Per Client Per Day Stay</h4>
+                    </div>
+                    <div class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12 radarCensus">
+                                    <highchart id="costPerClientChart" config="costPerClientConfigChart"></highchart>
+                                </div>
+<!--                                <div class="text-center text-bold" ng-if="ageResidentViewFlag">Result Not found</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12" ng-controller="hospitalDeptCtrl">
+                <div class="panel panel-white">
+                    <div class="panel-heading border-bottom">
+                        <h4 class="text-dark ">Hospital Department Admission</h4>
+                    </div>
+                    <div class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12 radarCensus">
+                                    <highchart id="hospitalDeptChart" config="hospitalDeptConfigChart"></highchart>
+                                </div>
+<!--                                <div class="text-center text-bold" ng-if="ageResidentViewFlag">Result Not found</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+               <div class="row">
+            <div class="col-sm-12 col-md-12" ng-controller="hospitalStaffCtrl">
+                <div class="panel panel-white">
+                    <div class="panel-heading border-bottom">
+                        <h4 class="text-dark ">Hospital Staff Gender Count</h4>
+                    </div>
+                    <div class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12 radarCensus">
+                                    <highchart id="hospitalDeptChart" config="hospitalStaffConfigChart"></highchart>
+                                </div>
+<!--                                <div class="text-center text-bold" ng-if="ageResidentViewFlag">Result Not found</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

@@ -1,0 +1,66 @@
+<section class="content"  ng-controller="ppsCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3" id="payerText">
+            <div class="form-control">
+                <input type="text" placeholder="Search" ng-model="searchPPS" ng-keypress="($event.which === 13)?PPS(startPPS,endPPS,searchPPS):0"></input>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date financeClients_date">
+                        <input type="text" id="startPPS" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" max-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startPPS" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date financeClients_date">
+                        <input type="text" id="endPPS" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endPPS" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-2 search-count">
+            <button type="button" class="btn btn-primary" ng-click="PPS(startPPS, endPPS, searchPPS)">Search</button>
+            <span  class="search-textmsg">{{PPSCount}}</span>
+            <button  type="button" name="clear" class="btn btn-primary clear-margin" ng-click="startPPS = null; endPPS = null; searchPPS = null; PPS('', '', '')">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="noPPSDetailsFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="PPSDetailsFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="PPSDetailsDataTableConfig" class="table table-striped">
+                <tr ng-repeat="PPS in $data">
+                    <td data-title="'Level Of Care'" sortable="'LevelOfCare'">                                                                      {{PPS.LevelOfCare}}
+                    </td> 
+                    <td data-title="'Service Begin Date'" sortable="'ServiceBeginDate'">                                                           {{PPS.ServiceBeginDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Service End Date'" sortable="'ServiceEndDate'">                                                    {{PPS.ServiceEndDate|date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Transaction Date'" sortable="'TransactionDate'">                                                                      {{PPS.TransactionDate|date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'HIPPS'" sortable="'HIPPS'">                                                                      {{PPS.HIPPS}}
+                    </td>
+                    <td data-title="'MDSDay'" sortable="'MDSDay'">                                                           {{PPS.MDSDay}}
+                    </td>
+                    <td data-title="'PPSDay'" sortable="'PPSDay'">                                                                      {{PPS.PPSDay}}
+                    </td>
+                    <td data-title="'PPSReferenceDate'" sortable="'PPSReferenceDate'">                                                                      {{PPS.PPSReferenceDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Source System'" sortable="'DbName'">                                                                      {{PPS.DbName}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

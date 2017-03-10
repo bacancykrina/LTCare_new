@@ -1,0 +1,107 @@
+<section class="content"  ng-controller="clientTimelineCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row marginTop"  ng-show="noClientTimelineDataFoundRoot">
+        <div class="col-sm-6" id="timelineText">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="timelineStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startTimeline" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date..." ng-keypress="($event.which === 13)?searchByTimeline(startTimeline,endTimeline):0">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="timelineEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endTimeline" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button ng-click="searchByTimeline(startTimeline, endTimeline)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{clientTimelineCount}} </span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="startTimeline = null; endTimeline = null; searchByTimeline()">
+                Clear
+            </button>
+            <div class="search-count">
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="noClientTimelineDataFound">
+        <div class="col-xs-12">
+            <h4 class="noResult" >No results found.</h4>
+        </div>
+    </div>
+    <div class="panel-body" ng-show="ClientTimelineDataFound">
+        <div class="row" >
+            <ul class="timeline-xs margin-top-20 margin-bottom-20" when-scroll-ends="loadMoreData(startTimeline,endTimeline)" style="height:500px;overflow:auto;">
+                <li ng-repeat="data in clientdata" class="timeline-item " ng-class-odd="'success'" ng-class-even="'danger'" >
+                    <div class="margin-left-15" >
+                        <div class="text-muted text-small" >
+                            {{data.FieldValue| date:'MM/dd/yyyy'}}
+                            <p compile="showAnchor[$index]"></p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div role="dialog" class="modal main_popup" id="timelineModal" ng-show="clientTimelinePopUp">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><b class="text-blue">Timeline Info</b> <b>For</b> <b class="text-blue">{{timelinePopupTblList[timelinePopupCurrentIndex]}}</b> <b>On</b> <b class="text-blue">{{timelinePopupDate|date:'MM/dd/yyyy'}}</b></h4>
+                    </div>
+                    <div class="modal-body" ng-show="clientTimelinePopupDataFound">
+                        <div class="row" ng-show="noClientTimelineDataFound">
+                            <div class="col-xs-12" >
+                                <h4 class="panel-title">No results found.</h4>
+                            </div>
+                        </div>
+                        <div class="row " ng-show="ClientTimelineDataFound">
+                            <div class="col-xs-12 table-responsive" style="overflow-y: auto!important;
+                                 height: 300px!important;">
+                                <table style="width:100%; border: 1px solid black;
+                                       border-collapse: collapse;">
+                                    <tr style="width:100%; border: 1px solid black;
+                                        border-collapse: collapse;">
+                                        <th class="text-center" ng-repeat="(key,value) in data1" class="blackcolor" style="width:100%; border: 1px solid black;
+                                            border-collapse: collapse;">{{key}} </th>
+                                    </tr>
+                                    <tr ng-repeat="(key,value) in data2" style="width:100%; border: 1px solid black;
+                                        border-collapse: collapse;">
+                                        <td class="text-center" style="width:100%; border: 1px solid black;
+                                            border-collapse: collapse;" ng-repeat="x1 in value">{{x1}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body" ng-show="noClientTimelinePopupDataFound">
+                        <div class="row">
+                            <div class="popupBoldFont col-xs-12 table-responsive">
+                                <h4 class="panel-title">No results found.</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" >
+                        <div class="col-md-3 nextslide-btn">
+                            <button ng-click="TimelinePopupPrevious()" class="btn btn-default btn-primary btn-close"
+                                    type="button" ng-disabled="timelinePopupPreviousBtn">Prev
+                            </button>
+                            <button ng-click="TimelinePopupNext()" class="btn btn-default btn-primary btn-close"
+                                    type="button" ng-disabled="timelinePopupNextBtn">Next
+                            </button>
+                        </div>
+                        <button ng-click="closeClientTimelinePopup()" class="btn btn-default btn-close"
+                                type="button">Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>

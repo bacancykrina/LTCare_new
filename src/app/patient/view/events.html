@@ -1,0 +1,155 @@
+<section class="content"  ng-controller="eventsCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientEventsDataFoundRoot">
+        <div class="col-sm-3" id="eventText">
+            <input type="text" id="eventSearch" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchpatientevents" ng-keypress="($event.which === 13)?events(startEvent,endEvent,searchpatientevents):0">
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="eventStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startEvent" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date..." ng-keypress="($event.which === 13)?searchBypatientevents(startEvent,endEvent,searchpatientevents):0">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="eventEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endEvent" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button ng-click="events(startEvent, endEvent, searchpatientevents)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{eventCount}}</span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="searchpatientevents = ''; startEvent = ''; endEvent = ''; events('', '', '')">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientEventsDataFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="PatientEventsDataFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="patienteventsDatasTableConfig"
+                   class="table table-striped">
+                <tr ng-repeat="patientevent in $data">
+                    <td data-title="'When Occurred Date'" sortable="'WhenOccurredDate'">
+                        {{patientevent.WhenOccurredDate| date:'MM/dd/yyyy '}}
+                    </td>
+                    <td data-title="'SOC Sub Category'" sortable="'SOCSubCategory'">
+                        {{patientevent.SOCSubCategory}}
+                    </td>
+                    <td data-title="'Short Description'" sortable="'ShortDescription'">
+                        {{patientevent.ShortDescription}}
+                    </td>
+                    <td data-title="'Status'" sortable="'Status'">
+                        {{patientevent.Status}}
+                    </td>
+                    <td data-title="'Source Name'" sortable="'DBName'">
+                        {{patientevent.DBName}}
+                    </td>
+                    <td data-title="'Event Info'">
+                        <button ng-click="eventDescptionModal(patientevent)" ng-mouseenter="mouseEventOverModal(patientevent)" ng-mouseleave="mouseEventClosePopup()">
+                            <span class="fa fa-fw fa-info-circle"></span>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <div role="dialog" class="modal" id="myEventModal" ng-show="eventPopUp" style="display:block;"
+                 ng-init="getMoreEventData()" >
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Event Info</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="popupBoldFont col-xs-12 table-responsive">
+                                    <table>
+                                        <tr>
+                                            <td class="blackcolor">Event Type:</td>
+                                            <td>{{displayEventsDetails.EventType}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Record Type:</td>
+                                            <td>{{displayEventsDetails.RecordType}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">When Occurred Date:</td>
+                                            <td>{{displayEventsDetails.WhenOccurredDate| date:'MM/dd/yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">When Recorded:</td>
+                                            <td>{{patientevent.WhenRecorded| date:'MM/dd/yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Short Description:</td>
+                                            <td>{{displayEventsDetails.ShortDescription}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Status:</td>
+                                            <td>{{displayEventsDetails.Status}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Date Physician Notified:</td>
+                                            <td>{{displayEventsDetails.DatePhysNotified| date:'MM/dd/yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Note Physician Notified:</td>
+                                            <td>{{displayEventsDetails.NotePhysNotified}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Date Family Notified:</td>
+                                            <td>{{displayEventsDetails.DateFamilyNotified| date:'MM/dd/yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Note Family Notified:</td>
+                                            <td>{{displayEventsDetails.NoteFamilyNotified}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Care plan Modified:</td>
+                                            <td>{{displayEventsDetails.careplanModified}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">DateCarePlanModified:</td>
+                                            <td>{{displayEventsDetails.DateCarePlanModified| date:'MM/dd/yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Note Care Plan Modified:</td>
+                                            <td>{{displayEventsDetails.NoteCarePlanModified}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Long Description:</td>
+                                            <td>{{displayEventsDetails.LongDescription}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Complete:</td>
+                                            <td>{{displayEventsDetails.Complete}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Completed Date:</td>
+                                            <td>{{displayEventsDetails.CompletedDate| date:'MM/dd/yyyy'}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" >
+                            <button ng-click="closeEventPopup()" class="btn btn-default btn-close" type="button">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,65 @@
+<section class="content"  ng-controller="planOfCareCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientPlanOfCareDataFoundRoot">
+        <div class="col-sm-3" id="planText">
+            <input type="text" id="planSearch" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchPlanOfCare" ng-keypress="($event.which === 13)?planOfCare(startPlan, endPlan, searchPlanOfCare):0">
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="planStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startPlan" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date..." ng-keypress="($event.which === 13)?searchByPlanOfCare(startPlan,endPlan,searchPlanOfCare):0">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="planEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endPlan" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button ng-click="planOfCare(startPlan, endPlan, searchPlanOfCare)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{planCount}}</span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="searchPlanOfCare = ''; startPlan = ''; endPlan = ''; planOfCare('', '', '')">Clear</button>
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientPlanOfCareDataFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="PatientPlanOfCareDataFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="patientPlanOfCareDatasTableConfig"
+                   class="table table-striped">
+                <tr ng-repeat="patientPlanOfCare in $data">
+                    <td data-title="'Problem Creation Date'" sortable="'ProblemCreationDate'">
+                        {{patientPlanOfCare.ProblemCreationDate| date:'MM/dd/yyyy '}}
+                    </td>
+                    <td data-title="'Problem Description'" sortable="'ProblemDescription'">
+                        {{patientPlanOfCare.ProblemDescription}}
+                    </td>
+                    <td data-title="'Goal Description'"  sortable="'GoalDescription'">
+                        {{patientPlanOfCare.GoalDescription}}
+                    </td>
+                    <td data-title="'Approach Description'"  sortable="'ApproachDescription'">
+                        {{patientPlanOfCare.ApproachDescription}}
+                    </td>
+                    <td data-title="'Disciplines'" sortable="'Disciplines'">
+                        {{patientPlanOfCare.Disciplines}}
+                    </td>
+                    <td data-title="'Source name'" sortable="'DBName'">
+                        {{patientPlanOfCare.DBName}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

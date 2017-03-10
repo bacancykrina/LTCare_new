@@ -1,0 +1,88 @@
+<section class="content" ng-controller="claimCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row marginTop">
+        <div class="col-sm-3" id="payerText">
+            <div class="form-control">
+                <input id="searchClaim" type="text" placeholder="Search ..." ng-model="searchClaim" ng-keypress="($event.which === 13)?claimDetails(startClaim,endClaim,searchClaim):0">
+            </div>
+        </div>
+        <div class="dpMain col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="startPayerId" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" max-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startClaim" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="endPayerId" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endClaim" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-2 search-count">
+            <button type="button" class="btn btn-primary"  ng-click="claimDetails(startClaim, endClaim, searchClaim)" >
+                Search
+            </button>
+            <span class="search-textmsg">{{claimCount}}</span>&nbsp;
+            <button  type="button" id="" name="clear" class="btn btn-primary clear-margin" ng-click="searchClaimPatient = null; claimDetails('', '', '')">
+                Clear
+            </button>
+        </div>       
+    </div>
+    <div class="row" ng-show="noClaimDetailsFound">
+        <div class="col-xs-12" >
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="ClaimDetailsFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="claimDetailsDataTableConfig" class="table table-striped">
+                <tr ng-repeat="claim in $data">
+                    <td data-title="'Payer Name'" sortable="'PayerName'">                                                                      {{claim.PayerName}}
+                    </td>
+                    <td data-title="'Claim Type'" sortable="'ClaimType'">                                                                      {{claim.ClaimType}}
+                    </td>
+                    <td data-title="'Patient Name'" sortable="'PatientName'">                                                                      {{claim.PatientName}}
+                    </td>
+                    <td data-title="'Begin Date'" sortable="'BeginDate'">                                                                      {{claim.BeginDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'End Date'" sortable="'EndDate'">                                                                      {{claim.EndDate|date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Admit Date'" sortable="'AdmDate'">                                                                      {{claim.AdmDate|date:'MM/dd/yyyy'	}}
+                    </td>
+                    <td data-title="'Adm Diag Code'" sortable="'AdmDiagCode'">                                                                      {{claim.AdmDiagCode}}
+                    </td>
+                    <td data-title="'Description'" sortable="'Description'">                                                                      {{claim.Description}}
+                    </td>
+                    <td data-title="'Diag1'" sortable="'Diag1'">                                                                      {{claim.Diag1}}
+                    </td>
+                    <td data-title="'Diag2'" sortable="'Diag2'">                                                                      {{claim.Diag2}}
+                    </td>
+                    <td data-title="'Diag3'" sortable="'Diag3'">                                                                      {{claim.Diag3}}
+                    </td>
+                    <td data-title="'Diag4'" sortable="'Diag4'">                                                                      {{claim.Diag4}}
+                    </td>
+                    <td data-title="'Diag5'" sortable="'Diag5'">                                                                      {{claim.Diag5}}
+                    </td>
+                    <td data-title="'Diag6'" sortable="'Diag6'">                                                                      {{claim.Diag6}}
+                    </td>
+                    <td data-title="'Diag7'" sortable="'Diag7'">                                                                      {{claim.Diag7}}
+                    </td>
+                    <td data-title="'Diag8'" sortable="'Diag8'">                                                                      {{claim.Diag8}}
+                    </td>
+                    <td data-title="'ClaimSignature'" sortable="'ClaimSignature'">                                                                      {{claim.ClaimSignature}}
+                    </td>
+                    <td data-title="'HCPCS'" sortable="'HCPCS'">                                                                      {{claim.HCPCS}}
+                    </td>
+                    <td data-title="'Source Name'" sortable="'DBNAME'">                                                                      {{claim.DBNAME}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

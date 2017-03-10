@@ -1,0 +1,68 @@
+<section class="content"  ng-controller="arCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row marginTop">
+        <div class="col-sm-3" id="payerText">
+            <div class="form-control">
+                <input type="text" placeholder="Search" ng-model="searchAR" ng-keypress="($event.which === 13)?AR(startAR,endAR,searchAR):0"></input>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date financeClients_date">
+                        <input type="text" id="startAR" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startAR" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date financeClients_date">
+                        <input type="text" id="endAR" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endAR" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-2 search-count">
+            <button type="button" class="btn btn-primary"  ng-click="AR(startAR, endAR, searchAR)" >
+                Search
+            </button>
+            <span  class="search-textmsg">{{ARCount}}</span>
+            <button  type="button" id="" name="clear" class="btn btn-primary clear-margin" ng-click="startAR = null;endAR = null;searchAR = null; AR('', '', '')">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="noARDetailsFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="ARDetailsFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="ARDetailsDataTableConfig" class="table table-striped">
+                <tr ng-repeat="AR in $data">
+                    <td data-title="'Level Of Care'" sortable="'LevelOfCare'">                                                                      {{AR.LevelOfCare}}
+                    </td> 
+                    <td data-title="'Service Begin Date'" sortable="'ServiceBeginDate'">                                                           {{AR.ServiceBeginDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Service End Date'" sortable="'ServiceEndDate'">                                                    {{AR.ServiceEndDate|date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Transaction Date'" sortable="'TransactionDate'">                                                                      {{AR.TransactionDate|date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'AR Amount'" sortable="'ARAmount'">                                                                      {{AR.ARAmount}}
+                    </td>
+                    <td data-title="'Patient Liability Amount'" sortable="'PatientLiabilityAmount'">                                                           {{AR.PatientLiabilityAmount}}
+                    </td>
+                    <td data-title="'AR GLAccount Name'"  sortable="'ARGLAccountName'">                                                                      {{AR.ARGLAccountName}}
+                    </td>
+                    <td data-title="'AR Amount 1'" sortable="'ARAmount1'">                                                                      {{AR.ARAmount1}}
+                    </td>
+                    <td data-title="'Source System'" sortable="'DbName'">                                                                      {{AR.DbName}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

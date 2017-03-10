@@ -1,0 +1,39 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            All Staff Members
+            <small>Staff members</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">All Staff Members</li>
+            <li class="active">Staff members</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="tab-content" >
+                <div class="tab-content">
+                    <div class="container">
+                        <br>
+                        <ul class="nav nav-tabs">
+                            <li class="heading-font-size" ng-class="{'active': staffType == 'active'}">
+                                <a data-toggle="tab" ng-click="selectStaffType('active')">Active Staff</a>
+                            </li>
+                            <li class="heading-font-size" ng-class="{'active': staffType == 'terminated'}">
+                                <a data-toggle="tab" ng-click="selectStaffType('terminated')">Terminated Staff</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div  class="tab-pane fade in active">
+                                <div ng-include="selectedTemplate"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

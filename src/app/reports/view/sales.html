@@ -1,0 +1,58 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <section class="content-header">
+        <h1>
+            Reports
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Clients</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">  
+        <div class="row">
+            <div class="col-sm-12 col-md-12" ng-controller="salesCtrl">
+                <div class="panel panel-white">
+                    <div class="panel-heading border-bottom">
+                        <h4 class="text-dark ">Departmental Sales Comparison</h4>
+                    </div>
+                    <div class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12 radarCensus">
+                                    <highchart id="ageWiseResidentChart" config="salesConfigChart"></highchart>
+                                </div>
+<!--                                <div class="text-center text-bold" ng-if="ageResidentViewFlag">Result Not found</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12" ng-controller="healthCampaignCtrl">
+                <div class="panel panel-white">
+                    <div class="panel-heading border-bottom">
+                        <h4 class="text-dark ">Health Campaign Success</h4>
+                    </div>
+                    <div class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12 radarCensus">
+                                    <highchart id="healthCampaignChart" config="healthCampaignConfigChart"></highchart>
+                                </div>
+<!--                                <div class="text-center text-bold" ng-if="ageResidentViewFlag">Result Not found</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

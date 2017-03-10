@@ -1,0 +1,72 @@
+<section class="content"  ng-controller="pharmacyDispencedCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row">
+        <div  ng-show='noClaimDetailsDataFoundRoot'>
+            <div class="col-sm-3">
+                <input type="text" placeholder="Search" ng-model="searchDispense" ng-keypress="($event.which === 13)?dispenced(startDispense,endDispense,searchDispense):0"  ></input>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-control">
+                    <div class="dpMain">
+                        <div class="start-date financeClients_date">
+                            <input type="text" id="startDispense" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startDispense" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                        </div>
+                        <div class="todate">
+                            <span class="input-group-addon">To</span>
+                        </div>
+                        <div class="end-date financeClients_date">
+                            <input type="text" id="endDispense" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endDispense" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-sm-4 search-count">
+                <button type="button" class="btn btn-primary" ng-click="dispenced(startDispense, endDispense, searchDispense)" >
+                    Search
+                </button>
+                <span  class="search-textmsg">{{dispenseCount}}</span>
+                <button  type="button" id="" name="clear" class="btn btn-primary clear-margin" ng-click="startDispense = ''; endDispense = ''; searchDispense = ''; dispenced('', '', '')">
+                    Clear
+                </button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row" >
+                <div class="col-xs-12" ng-show="noDispenseReportFound">
+                    <h4 class="noResult">No results found.</h4>
+                </div>
+            </div>
+            <div class="row" ng-show="DispenseReportFound">
+                <div class="col-xs-12 table-responsive">
+                    <table ng-table="dispenseReportDataTableConfig" class="table table-striped">
+                        <tr ng-repeat="dispense in $data">
+                            <td data-title="'Patient Group'"  sortable="'PatientGroup'">                                                                      {{dispense.PatientGroup}}
+                            </td>
+                            <td data-title="'Start Date'"  sortable="'RxStartDate'" >                                                                      {{dispense.RxStartDate| date:'MM/dd/yyyy'}}
+                            </td>
+                            <td data-title="'Stop Date'"  sortable="'RxStopDate'">                                                                      {{dispense.RxStopDate| date:'MM/dd/yyyy'}}
+                            </td>
+                            <td data-title="'Rx Number'"  sortable="'RxNumber'">                                                           {{dispense.RxNumber}}
+                            </td>
+                            <td data-title="'Date Filled'"  sortable="'DateFilled'">                                                           {{dispense.DateFilled| date:'MM/dd/yyyy'}}
+                            </td>
+                            <td data-title="'Drug Name'"  sortable="'DrugName'">                                                                      {{dispense.DrugName}}
+                            </td>
+                            <td data-title="'Quantity'"  sortable="'QuantityDisp'">                                                                      {{dispense.QuantityDisp}}
+                            </td>
+                            <td data-title="'Doctor Name'"  sortable="'DoctorName'">                                                           {{dispense.DoctorName}}
+                            </td>
+                            <td data-title="'Directions'"  sortable="'Directions'">                                                                      {{dispense.Directions}}
+                            </td>
+                            <td data-title="'Source System'"  sortable="'DBName'">                                                                      {{dispense.DBName}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

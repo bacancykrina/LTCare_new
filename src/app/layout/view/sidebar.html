@@ -1,0 +1,201 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar" ng-controller="sidebarCtrl">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img ng-src={{srcImagePath}}{{userDetails.userImage}} class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>{{userDetails.firstName}}</p>
+            </div>
+            <div is-open="status.isopen" uib-dropdown="" class="dropdown pull-right">
+                <a uib-dropdown-toggle="" class="dropdown-toggle btn btn-transparent text-white" href="" aria-haspopup="true" aria-expanded="false"><i class="fa fa-caret-down"></i> </a>
+                <ul class="dropdown-menu pull-right animated fadeInRight">
+                    <li>
+                        <a class="ng-scope" href="#/myProfile/description">My Profile</a>
+                    </li>
+                    <li>
+                        <a class="ng-scope" href="#/app/pages/calendar">My Calendar</a>
+                    </li>
+                    <li>
+                        <a class="ng-scope" href="#/app/pages/messages">My Messages</a>
+                    </li>
+                    <li>
+                        <a class="ng-scope" href="#/login/lock">Lock Screen</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a ng-click="logout()" class="ng-scope">Log Out</a>
+                    </li>
+                </ul> 
+            </div>
+        </div>
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li class="header">MAIN NAVIGATION</li>
+            <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/#/executive"><i class="fa fa-dashboard"></i>Executive</a></li>
+                    <li><a href="/#/administrative"><i class="fa fa-dashboard"></i>Administrative</a></li>
+                </ul>
+            </li>
+            <li class="active">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-user-md"></i>
+                    <span>Clinical 360&deg;</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li ng-class="{'active': type == 'allclient'}"><a ng-click="getClientTabPath('allclient')"><i class="fa fa-group"></i>All Clients</a></li>
+                    <li ng-class="{'active': type == 'active'}"><a ng-click="getClientTabPath('active')"><i class="fa fa-group"></i>Active Clients</a></li>
+                    <li ng-class="{'active': type == 'inactive'}"><a ng-click="getClientTabPath('inactive')"><i class="fa fa-group"></i>In-Active Clients</a></li>
+                </ul>
+<!--                 <ul class="treeview-menu" ng-controller="clinicalCtrl">
+                    <li ng-class="{'active': type == 'allclient'}"><a href="/#/clinical/{{db}}/allclient/1"><i class="fa fa-group"></i>All Clients</a></li>
+                    <li ng-class="{'active': type == 'active'}"><a href="/#/clinical/{{db}}/active/1"><i class="fa fa-group"></i>Active Clients</a></li>
+                    <li ng-class="{'active': type == 'inactive'}"><a href="/#/clinical/{{db}}/inactive/1"><i class="fa fa-group"></i>In-Active Clients</a></li>
+                </ul>-->
+            </li>
+             <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-dashboard"></i> <span>Reports</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/#/reports/clients"><i class="fa fa-group"></i>Clients</a></li>
+                    <li><a href="/#/reports/hospital"><i class="fa fa-hospital-o"></i>Hospital</a></li>
+                    <li><a href="/#/reports/sales"><i class="fa fa-dashboard"></i>Sales</a></li>
+                </ul>
+            </li>
+            <li>            
+                <a href="javascript:void(0)">
+                    <i class="fa fa-users"></i> <span>Staff Members</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/#/staffMembers/active"><i class="fa fa-group"></i>All Staff Members</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-pie-chart"></i>
+                    <span>Admin 360&deg;</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/#/admin360/census/0"><i class="fa fa-circle-o"></i>Census</a></li>
+                    <li><a href="/#/admin360/c2cSystems"><i class="fa fa-circle-o"></i>C2C Systems</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-laptop"></i>
+                    <span>Finance 360&deg;</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/#/finance360/accounts"><i class="fa fa-circle-o"></i>Accounts Receivables</a></li>
+                    <li><a href="/#/finance360/reports"><i class="fa fa-circle-o"></i>Reports</a></li>
+                    <li><a href="/#/finance360/allClients"><i class="fa fa-group"></i>All Clients</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-laptop"></i>
+                    <span>Doctors</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/#/doctors/alldoctors"><i class="fa fa-circle-o"></i>All Doctors</a></li>
+                    <li><a href="/#/doctors/adddoctor"><i class="fa fa-circle-o"></i>Add Doctor</a></li>
+                    <li><a href="/#/doctors/editdoctor"><i class="fa fa-group"></i>Edit Doctors</a></li>
+                     <li><a href="/#/doctors/profile"><i class="fa fa-group"></i>Doctor Profile</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-laptop"></i>
+                    <span>Appointments</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/#/appointment/schedule"><i class="fa fa-circle-o"></i>Doctor Schedule</a></li>
+                    <li><a href="/#/appointment/bookappointment"><i class="fa fa-circle-o"></i>Book Appointment</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-circle-o"></i>
+                    <span>Billing</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/#/billing/payment"><i class="fa fa-circle-o"></i>Payments</a></li>
+                    <li><a href="/#/billing/addpayment"><i class="fa fa-circle-o"></i>Add Payment</a></li>
+                    <li><a href="/#/billing/clientinvoice"><i class="fa fa-circle-o"></i>Client Invoice</a></li>
+                </ul>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="/#/mail">
+                    <i class="fa fa-circle-o"></i>
+                    <span>Mails</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-circle-o"></i>
+                    <span>Centers</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/#/centers/worldwidecenters"><i class="fa fa-circle-o"></i>WorldWide Centers</a></li>
+                </ul>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-circle-o"></i>
+                    <span>Events</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/#/events/eventmanagement"><i class="fa fa-circle-o"></i>Event Management</a></li>
+                </ul>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+    </aside>

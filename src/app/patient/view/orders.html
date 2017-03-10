@@ -1,0 +1,155 @@
+<section class="content"  ng-controller="patientOrdersCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row"  ng-show="noPatientOrderDataFoundRoot"  >
+        <div class="col-sm-3" id="orderText">
+            <input type="text" id="orderSearch" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchOrders" ng-keypress="($event.which === 13)?orders(startOrder,endOrder,searchOrders,selectedOrderType):0">
+        </div>
+        <div class="col-sm-4">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date clients_date">
+                        <input type="text" id="orderStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" max-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startOrder" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date clients_date">
+                        <input type="text" id="orderEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endOrder" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 sm-3-custom">
+            <div>
+                <span class="clip-select">
+                    <select ng-model="selectedOrderType" id="selectOrder" ng-change="orders(startOrder, endOrder, searchOrders, selectedOrderType)">
+                        <option value="{{item}}" ng-repeat="item in OrderDropdown">{{item}}</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div>
+            <button ng-click="orders(startOrder, endOrder, searchOrders, selectedOrderType)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{orderCount}}</span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="searchOrders = ''; startOrder = ''; endOrder = ''; selectedOrderType = 'All OrderType'; orders('', '', '', '')">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientOrderDataFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div  class="row " ng-show="PatientOrderDataFound">
+        <div class="col-xs-12 table-responsive table-padding">
+            <table ng-table="patientOrdersTableConfig"
+                   class="table table-striped">
+                <tr ng-repeat="order in $data">
+                    <td data-title="'Order Start Date'" sortable="'OrderStartDate'">
+                        {{order.OrderStartDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Order End Date'"
+                        sortable="'OrderEndDate'">{{order.OrderEndDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Order Type'" sortable="'OrderType'">{{order.OrderType}}
+                    </td>
+                    <td data-title="'Flowsheet'" sortable="'Flowsheet'">
+                        {{order.Flowsheet}}
+                    </td>
+                    <td data-title="'Order Description'" sortable="'OrderDescription'">
+                        {{order.OrderDescription}}
+                    </td>
+                    <td data-title="'Source Name'" sortable="'DBName'">
+                        {{order.DBName}}
+                    </td>
+                    <td data-title="'Order Info'">
+                        <button ng-click="oderDescptionModal(order)" ng-mouseenter="mouseOverModal(order)" ng-mouseleave="mouseClosePopup()">
+                            <span class="fa fa-fw fa-info-circle"></span>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <!-- Modal start -->
+            <div role="dialog" class="modal" id="orderModal" ng-show="orderPopUp" style="display:block;">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <button data-dismiss="modal" class="close" type="button">×</button> -->
+                            <h4 class="modal-title">Order Info</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="popupBoldFont col-xs-12 table-responsive ">
+                                    <table>
+                                        <tr>
+                                            <td class="blackcolor">Order Type:</td>
+                                            <td>{{displayOrderDetails.OrderType}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Order Description:</td>
+                                            <td>{{displayOrderDetails.OrderDescription}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Order Start Date:</td>
+                                            <td>{{displayOrderDetails.OrderStartDate| date:'MM/dd/yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Order End Date:</td>
+                                            <td>{{displayOrderDetails.OrderEndDate| date:'MM/dd/yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Order Flowsheet:</td>
+                                            <td>{{displayOrderDetails.Flowsheet}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Order Received By:</td>
+                                            <td>{{displayOrderDetails.orderReceivedByName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Category:</td>
+                                            <td>{{displayOrderDetails.category}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Order Verified By:</td>
+                                            <td>{{displayOrderDetails.orderVerifiedByName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Order Active Description:</td>
+                                            <td>{{displayOrderDetails.OrderActiveDescription}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Reason Description:</td>
+                                            <td>{{displayOrderDetails.ReasonDescription}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blackcolor">Frequency:</td>
+                                            <td>{{displayOrderDetails.frequencyDescription}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Special Instructions:</td>
+                                            <td>{{displayOrderDetails.specialInstructions}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="blackcolor">Pharmacy Name:</td>
+                                            <td>{{displayOrderDetails.PharmacyName}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" >
+                            <button ng-click="closeOrderPopup()" class="btn btn-primary btn-close" type="button">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

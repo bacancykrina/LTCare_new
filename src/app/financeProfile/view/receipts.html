@@ -1,0 +1,66 @@
+<section class="content"  ng-controller="receiptsCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row marginTop">
+        <div class="col-sm-3" id="payerText">
+            <div class="form-control">
+                <input type="text" placeholder="Search" ng-model="searchCashPatient" ng-keypress="($event.which === 13)?cashDetails(startCash,endCash,searchCashPatient):0"></input>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date financeClients_date">
+                        <input type="text" id="startCash" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startCash" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date financeClients_date">
+                        <input type="text" id="endCash" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endCash" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 col-xs-2 search-count">
+            <button type="button" class="btn btn-primary"  ng-click="cashDetails(startCash, endCash, searchCashPatient)">Search</button>
+            <span  class="search-textmsg">{{cashCount}}</span>
+            <button  type="button" id="" name="clear" class="btn btn-primary clear-margin" ng-click="startCash = null; endCash = null; searchCashPatient = null; cashDetails('', '', '')">Clear</button>
+        </div>
+    </div>
+    <div class="row" ng-show="noCashDetailsFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="CashDetailsFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="cashDetailsDataTableConfig" class="table table-striped">
+                <tr ng-repeat="cash in $data">
+                    <td data-title="'Payer Name'" sortable="'PayerName'">                                                                      {{cash.PayerName}}
+                    </td>
+                    <td data-title="'Cash Receipt Date'" sortable="'CashReceiptDate'">                                                           {{cash.CashReceiptDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Reference'" sortable="'Reference'">                                                                      {{cash.Reference}}
+                    </td>
+                    <td data-title="'Cash Receipt Amount'" sortable="'CashReceiptAmount'">                                                                      {{cash.CashReceiptAmount}}
+                    </td>
+                    <td data-title="'CreatedOn'"  sortable="'CreatedOn'">                                                                      {{cash.CreatedOn| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Distributed Amount'" sortable="'DistributedAmount'">                                                                      {{cash.DistributedAmount}}
+                    </td>
+                    <td data-title="'Adjusted Amount'" sortable="'AdjustedAmount'">                                                                      {{cash.AdjustedAmount}}
+                    </td>
+                    <td data-title="'Credit GLAccount Name'" sortable="'CreditGLAccountName'">                                                                      {{cash.CreditGLAccountName}}
+                    </td>
+                    <td data-title="'Date Billed'" sortable="'DateBilled'">                                                                      {{cash.DateBilled| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Source System'" sortable="'DbName'">                                                                      {{cash.DBName}}
+                    </td> 
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

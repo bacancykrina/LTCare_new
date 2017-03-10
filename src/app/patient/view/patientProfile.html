@@ -1,0 +1,248 @@
+<section class="content"  ng-controller="patientProfileCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="user-left">
+                <div class="center">
+                    <h4 class="panel-title">{{fullProfile.FirstName}}
+                        {{fullProfile.LastName}}
+                    </h4>
+                    <div>
+                        <div class="user-image">
+                            <div class="thumbnail">
+                                <img check-image gender="{{fullProfile.GenderFull}}" ng-src="{{srcImagePath}}{{fullProfile.Image}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive" >
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th colspan="3">General Information</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Date of Birth</td>
+                                <td>{{fullProfile.dateofbirth}}</td>
+                            </tr>
+                            <tr>
+                                <td>Client Code</td>
+                                <td>{{fullProfile.MPatientId}}</td>
+                            </tr>
+                            <tr>
+                                <td>Primary Language</td>
+                                <td>{{fullProfile.PrimaryLanguage}}</td>
+                            </tr>
+                            <tr>
+                                <td>Facility Name</td>
+                                <td>{{fullProfile.FacilityName}}</td>
+                            </tr>
+                            <tr>
+                                <td>Gender</td>
+                                <td>{{fullProfile.GenderFull}}</td>
+                            </tr>
+                            <tr>
+                                <td>SSN</td>
+                                <td>{{fullProfile.ssnval}}</td>
+                            </tr>
+                            <tr>
+                                <td>Age</td>
+                                <td>{{fullProfile.Age}}</td>
+                            </tr>
+                            <tr>
+                                <td>Address</td>
+                                <td>{{fullProfile.Address1}}</td>
+                            </tr>
+                            <tr>
+                                <td>City</td>
+                                <td>{{fullProfile.City}}</td>
+                            </tr>
+                            <tr>
+                                <td>State Code</td>
+                                <td>{{fullProfile.StateCode}}</td>
+                            </tr>
+                            <tr>
+                                <td>Country</td>
+                                <td>{{fullProfile.County}}</td>
+                            </tr>
+                            <tr>
+                                <td>Primary Payer Name</td>
+                                <td><a ng-click="goToPayer()">{{fullProfile.PayerName}}</a></td>
+                            </tr>
+                        <th colspan="3">Source Systems</th>
+                        <tr ng-repeat="patientMRNData in patientMRNDatas">
+                            <td>
+                                {{patientMRNData.DBName}}
+                            </td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row space20">
+                <div class="col-xs-12">
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Client Directives</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" ng-show="noDirectivesDataFoundRoot" >
+                                <div class="col-xs-12">
+                                    <input type="text" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchDirectives" ng-keypress="($event.which === 13) ? getPatientDirective(searchDirectives) : 0">
+                                </div>
+                            </div>
+                            <div class="row" ng-show="noDirectivesDataFound">
+                                <div class="col-xs-12">
+                                    <h4 class="text-red">No results found.</h4>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="DirectivesDataFound">
+                                <div class="col-xs-12 table-responsive">
+                                    <table ng-table="directivesTableConfig" class="table table-striped">
+                                        <tr ng-repeat="directive in $data">
+                                            <td data-title="'Directives'" sortable="'Directives'">
+                                                {{directive.Directives}}
+                                            </td>
+                                            <td data-title="'Admit Date'" sortable="'RecentAdmitDate'">  
+                                                {{directive.RecentAdmitDate| date:'MM/dd/yyyy'}}
+                                            </td>
+                                            <td data-title="'Source Name'" sortable="'DBName'">
+                                                {{directive.DBName}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row space20">
+                <div class="col-xs-12">
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Primary Physician</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" >
+                                <div class="col-xs-12" ng-show="nophysicianDataFoundRoot">
+                                    <input type="text" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchphysician">
+                                </div>
+                                <div class="col-xs-12" ng-show="nophysicianDataFound">
+                                    <h4 class="text-red">No results found.</h4>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="physicianDataFound">
+                                <div class="col-xs-12 table-responsive">
+                                    <table ng-table="physicianTableConfig" class="table table-striped">
+                                        <tr ng-repeat="physician in $data| filter:searchphysician ">
+                                            <td data-title="'Primary Physician'" sortable="'PrimaryPhysician'">{{physician.PrimaryPhysician}}
+                                            </td>
+                                            <td data-title="'Source System'" sortable="'DBName'">                     {{physician.DBName}}                                        </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row space20">
+                <div class="col-xs-12">
+                    <div class="panel panel-white">
+                        <div class="panel-heading ">
+                            <h4 class="panel-title">Client Allergies</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" >
+                                <div class="col-xs-12" ng-show="noAllergiesDataFoundRoot">
+                                    <input type="text" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchAllergies" ng-keypress="($event.which === 13) ? getPatientAllergies(searchAllergies) : 0">
+                                </div>
+                                <div class="col-xs-12" ng-show="noAllergiesDataFound">
+                                    <h4 class="text-red">No results found.</h4>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="AllergiesDataFound">
+                                <div class="col-xs-12 table-responsive">
+                                    <table ng-table="allergyDataTableConfig" class="table table-striped">
+                                        <tr ng-repeat="allergy in $data">
+                                            <td data-title="'Allergy Name'" sortable="'AllergyName'">                                                                      {{allergy.AllergyName}}
+                                            </td>
+                                            <td data-title="'Source Name'" sortable="'DBName'">                                                                      {{allergy.DBName}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row space20">
+                <div class="col-xs-12">
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Most Recent Vital Signs</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" >
+                                <div class="col-xs-12" ng-show="noRecentVitalDataFoundRoot">
+                                    <input type="text" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchRecentVital" ng-keypress="($event.which === 13) ? getMostRecentVitalSigns(searchRecentVital) : 0">
+                                </div>
+                            </div>
+                            <div class="row" ng-show="noRecentVitalDataFound">
+                                <div class="col-xs-12">
+                                    <h4 class="text-red">No results found.</h4>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="RecentVitalDataFound">
+                                <div class="col-xs-12 table-responsive">
+                                    <table ng-table="RecentVitalTableConfig" class="table table-striped">
+                                        <tr ng-repeat="recentVital in $data">
+                                            <td data-title="'Most Recent Vital Signs'" sortable="'MeasurementTypeDesc'"><a ng-click="vitalTop5Trend(recentVital)"><b>{{recentVital.MeasurementTypeDesc}}</b></a> : {{recentVital.VitalDesc}} 
+                                            </td>
+                                            <td data-title="'Date/Time/Taken'" sortable="'TakenByDate1'">                    {{recentVital.TakenByDate1| date:'MM/dd/yyyy'}}                                        </td>
+                                            <td data-title="'Source Name'" sortable="'DBName'">
+                                                {{recentVital.DBName}}    
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div role="dialog" class="modal recentmd" id="myvitalTop5Trend" ng-show="testPopUpmyvitalTop5Trend" style="top: 10%; display:block;height: 450px!important;">
+                                <div class="modal-dialog top_dialog5">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"> Last 5 Result For Vital Sign  {{MeasurementTypeDesc}} : {{startVitalDate| date : 'yyyy-MM-dd'}} - {{endVitalDate| date : 'yyyy-MM-dd'}}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div ng-if="loader1">
+                                                <div class="loader">
+                                                </div>
+                                            </div>   
+                                            <div class="row">
+                                                <highchart ng-if="!loader1" id="chartForTop5VitalTrend" config="chartConfigForVitalTop5Trend"></highchart>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" >
+                                            <button ng-click="closePopupOfvitalTop5Trend()" class="btn btn-default btn-close" type="button">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

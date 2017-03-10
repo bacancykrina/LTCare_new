@@ -1,0 +1,58 @@
+<section class="content" ng-controller="leadsCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div ng-show="noSearchFound">
+        <div class="row marginTop">
+            <div class="col-md-2 col-lg-9 col-sm-3 col-xs-3">
+                <input type="text" class="form-control" placeholder="Search.." ng-model="searchLeader" ng-keypress="($event.which === 13) ? searchLeaderList(searchLeader) : 0"></input>
+            </div>
+
+            <div class="col-md-1 col-sm-2 col-xs-2 search-count">
+                <button type="button" class="btn btn-primary" ng-click="searchLeaderList(searchLeader)">
+                    Search
+                </button>
+                <span  class="search-textmsg">{{countedRecords}}</span>
+            </div>
+            <button  type="button" id="" name="clear" class="btn btn-primary clear-margin" ng-click="searchLeader = '';searchLeaderList()">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="row" ng-show="noRecordFound">
+            <div id="leader-{{$index + 1}}" class="col-md-4 clientAlign"  ng-repeat="leader in leaderList">
+                <div ng-if="$last" ng-init="alignFix()"></div>
+                <div class="pad15">
+                    <div ng-click="showUser(leader.RefPatientId)" class="thumb-icon1">
+                        <img height='110' width='100' check-image gender="{{leader.GenderFull}}" ng-src="{{srcImagePath}}{{leader.Image}}" class="img-responsive img-thumbnail"> 
+                    </div>
+                    <div class="thumb-contant">
+                        <h3 id="describe-user" ng-click="showUser(leader.RefPatientId)" style="color:#3C8DBC">{{leader.Name}} </h3>
+                        <div class="text-small margin-bottom-5">
+                            <b class= "dark-field"> DOB: </b> {{leader.Birthdate}}
+                        </div>
+                        <div class="text-small margin-bottom-5">
+                            <b class= "dark-field"> Medicare Number: </b>{{leader.MedicareNo}}
+                        </div>
+                        <div class="text-small margin-bottom-5">
+                            <b class= "dark-field">  Gender: </b> {{leader.Gender}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <uib-pagination ng-if="leaderList" ng-show="countedRecords > itemPerPage" class="pagination-sm" total-items="countedRecords"
+                        ng-model="currentPage" max-size="maxSize"
+                        boundary-links="true" force-ellipses="true"
+                        ng-change="getNewPageData(currentPage)" rotate="false"
+                        items-per-page="itemPerPage">
+        </uib-pagination>
+        <div class="row" ng-show="noDataFound">
+            <div class="col-xs-12">
+                <h4 class="noResult">No result found. </h4>
+            </div>
+        </div>
+    </div>
+</section>

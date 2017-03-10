@@ -1,0 +1,84 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Finance 360
+            <small>Reports</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li class="">Finance 360</li>
+            <li class="active">Reports</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-white">
+                        <div class="panel-body">                    
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="padding-40 text-center" ng-appear="countTo1 = 8522">
+                                        <i class="fa fa-user fa-4x text-red"></i>
+                                        <span class="block counter ng-scope" count-to="8522" value="0" duration="1" filter="number">8,522</span>
+                                        <hr class="white-line">
+                                        <p class="block text-light">
+                                            Total Client Inn in week
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="padding-40 text-center" ng-appear="countTo2 = 532">
+                                        <i class="fa  fa-wheelchair fa-4x text-red"></i>
+                                        <span class="block counter ng-scope" count-to="532" value="0" duration="1" filter="number">532</span>
+                                        <hr class="white-line">
+                                        <p class="block text-light">
+                                            Daily Client Inn
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="padding-40 text-center" ng-appear="countTo3 = 118">
+                                        <i class="fa fa-line-chart fa-4x text-red"></i>
+                                            <span class="counter ng-scope" count-to="118" value="0" duration="1" filter="number">118</span>
+                                            <span class="counter-symbol">%</span>
+                                        <hr class="white-line">
+                                        <p class="block text-light">
+                                            AVERAGE PROFIT MARKUP
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="padding-40 text-center" ng-appear="countTo4 = 4832">
+                                        <i class="fa fa-child fa-4x text-red"></i>
+                                        <span class="block counter ng-scope" count-to="4832" value="0" duration="1" filter="number">4,832</span>
+                                        <hr class="white-line">
+                                        <p class="block text-light">
+                                            SATISFIED Clients
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div ng-init="reportChart()" class="ng-scope">
+                                    <div class="col-sm-6">
+                                         <highchart id="reportChart" config="reportChartConfig"></highchart>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div ng-init="pieChart()" class="ng-scope">                            
+                                            <div class="text-center margin-bottom-15">
+                                              <highchart id="pieReportChart" config="pieReportConfig"></highchart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

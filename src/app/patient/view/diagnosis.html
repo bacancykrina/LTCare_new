@@ -1,0 +1,74 @@
+<section class="content" ng-controller="patientDiagnosisCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientICDDataFoundRoot">
+        <div class="col-sm-3" id="ICDText">
+            <input type="text" id="searchDiagnosis" class="margin-bottom-10 text-left col-md-6 ng-pristine ng-valid ng-empty ng-touched" placeholder="Search ..." ng-model="searchICD" ng-keypress="($event.which === 13)?DiagnosticICD(startICD,endICD,searchICD,selectedHCCFlag):0">
+        </div>
+        <div class="col-sm-4">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date clients_date">
+                        <input type="text" id="startDiagnosis" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" m ax-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startICD" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date clients_date">
+                        <input type="text" id="endDiagnosis" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endICD" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div >
+        <div class="col-sm-3 sm-3-custom">
+            <div>
+                <span class="clip-select">
+                    <select ng-model="selectedHCCFlag" id="selectHCC" ng-change="DiagnosticICD(startICD, endICD, searchICD, selectedHCCFlag)">
+                        <option value="Select HCC" >Select HCC</option>
+                        <option value="1" >HCC Flag</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div>
+            <button ng-click="DiagnosticICD(startICD, endICD, searchICD, selectedHCCFlag)" class="btn btn-primary relative-sbtn" type="button">
+                Search
+                <span  class="search-patienttextmsg">{{ICDCount}}</span>
+            </button>&nbsp;
+            <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="startICD = ''; endICD = ''; searchICD = ''; DiagnosticICD('', '', '', 'Select HCC');">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="row" ng-show="noPatientICDDataFound">
+        <div class="col-xs-12">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="PatientICDDataFound">
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="ICD9TableConfig"
+                   class="table table-striped ">
+                <tr ng-repeat="patientIcd in $data">
+                    <td data-title="'Diagnosis Date'" sortable="'DiagnosisDate'">
+                        {{patientIcd.DiagnosisDate| date:'MM/dd/yyyy'}}
+                    </td>
+                    <td data-title="'Diagnosis'" sortable="'Diagnosis'">
+                        {{patientIcd.Diagnosis}}
+                    </td>
+                    <td data-title="'Diagnosis Code'" sortable="'DiagnosisCode'">
+                        {{patientIcd.DiagnosisCode}}
+                    </td>
+                    <td data-title="'ICD Type'" sortable="'ICDTYPE'">
+                        {{patientIcd.ICDTYPE}}
+                    </td>
+                    <td data-title="'Source Name'" sortable="'DBName'">
+                        {{patientIcd.DBName}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,136 @@
+<section class="content"  ng-controller="patientVitalsCtrl">
+    <div ng-if="loader">
+        <div class="loader">
+        </div>
+    </div>
+    <div class="row" ng-show="noVitalsDataFoundRoot">
+        <div class="col-sm-3" id="VitalText">
+            <input type="text" id="VitalSearch" class="margin-bottom-10 text-left col-md-6" placeholder="Search ..." ng-model="searchVitals" ng-keypress="($event.which === 13)?patientsVitals(startVital,endVital,searchVitals,selectedName,selectedName1):0">
+        </div>
+        <div class="col-sm-6">
+            <div class="form-control">
+                <div class="dpMain">
+                    <div class="start-date">
+                        <input type="text" id="vitalStart" ng-focus="startOpened = true; endOpened = false;" ng-click="startOpen($event)" show-button-bar="false" close-text="Close" ng-required="true" max-date="end" min-date="'1970-12-31'" is-open="startOpened" show-weeks="false" ng-model="startVital" uib-datepicker-popup="MM/dd/yyyy" placeholder="Start date...">
+                    </div>
+                    <div class="todate">
+                        <span class="input-group-addon">To</span>
+                    </div>
+                    <div class="end-date">
+                        <input type="text" id="vitalEnd" ng-focus="endOpened = true; startOpened = false" ng-click="endOpen($event)" close-text="Close" ng-required="true" max-date="maxDate" show-button-bar="false" min-date="start" is-open="endOpened" show-weeks="false" ng-model="endVital" uib-datepicker-popup="MM/dd/yyyy" placeholder="End date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+        </div>
+    </div>
+    <div class="row vitalTable" ng-show="noVitalsDataFoundRoot">
+        <div class="col-sm-3">
+            <div class="form-control">
+                <span class="clip-select">
+                    <select ng-model="selectedName" id="selectedNameVital" ng-change="patientsVitals(startVital, endVital, searchVitals, selectedName, 'All Measurement');measurementList(selectedName); selectedName1 = 'All Measurement'">
+                        <option value="{{item.newcat}}"  ng-repeat="item in category track by $index" >{{item.newcat}}</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-control">
+                <span class="clip-select">
+                    <select ng-model="selectedName1" id="selectedNameVital1" ng-change="patientsVitals(startVital, endVital, searchVitals, selectedName, selectedName1)">
+                        <option value="{{item}}" ng-repeat="item in dropDown track by $index">{{item}}</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <button ng-click="patientsVitals(startVital, endVital, searchVitals, selectedName, selectedName1)" class="btn btn-primary relative-sbtn" type="button">
+            Search
+            <span class="search-patienttextmsg">{{vitalCount}}</span>
+        </button>
+        <button type="button" id="clear" name="clear" class="btn btn-primary clear-margin" ng-click="searchVitals = ''; startVital = ''; endVital = ''; patientsVitals('', '', '', '', ''); selectedName1 = 'All Measurement'; selectedName = 'All Category';measurementList(selectedName);">
+            Clear
+        </button>
+        <button type="button" id="latestTrend" name="latestTrend" class="btn btn-primary clear-margin" ng-click="latestTrend()">
+            Latest Trends
+        </button>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" ng-show="noVitalsDataFound">
+            <h4 class="noResult">No results found.</h4>
+        </div>
+    </div>
+    <div class="row" ng-show="VitalsDataFound">
+        <div id="vitalChartPopup" style="display: none;position: absolute; top: 60px;left: 48%; z-index: 999999;background: white; height: 380px;width: 376px;">
+            <div style="float: right">       
+                <button ng-click="closePopupOfvitalTop5Trend()" class="btn btn-default btn-close-labresult"
+                        type="button">X
+                </button> 
+            </div>
+            <highchart ng-if="!loader" id="chartForVitals" config="chartConfigVitals"></highchart>
+            <h5> <b>{{headerSmallVitalPopup}} - [{{startSmallVitalDate| date:'yyyy-MM-dd'}} - {{endSmallVitalDate| date:'yyyy-MM-dd'}}]</b></h5>
+            <div class="col-xs-12" ng-show="vitalTrendData">
+                <h4 style="text-align:center;margin-top: -100px;">No results found.</h4>
+            </div>
+        </div>
+        <div class="col-xs-12 table-responsive">
+            <table ng-table="patientVitalsTableConfig"
+                   class="table table-striped">
+                <tr ng-repeat="vital in $data">
+                    <td data-title="'Taken By Date'"
+                        sortable="'TakenByDate'">{{vital.TakenByDate| date:'MM/dd/yyyy '}}
+                    </td>
+                    <td data-title="'Category'" sortable="'Category'">
+                        {{vital.Category}}
+                    </td>
+                    <td data-title="'Measurement Type'"
+                        sortable="'MeasurementTypeDesc'">
+                        <a ng-click="chartOnVitals(vital.TakenByDate, vital.Category, vital.MeasurementTypeDesc, $event)"> {{vital.MeasurementTypeDesc}}</a>
+                    </td>
+                    <td data-title="'Vital Values'"
+                        sortable="'VitalValues'">{{vital.VitalValues}}
+                    </td>
+                    <td data-title="'Source Name'" sortable="'DBName'">
+                        {{vital.DBName}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div role="dialog" class="modal modalex2" id="latestTrendPopup" ng-show="latestTrendShow">
+            <div class="modal-dialog top_dialog1 big-modal">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div  ng-if="value.isSelected == true" class="col-md-12 minhpop" ng-repeat="(key,value) in graphsData" style="height:400px;">
+                            <div class="borderp" ng-init="title[$index] = key + ' - ' + '[' + value.highgrapgh.xAxis.categories[0].split(' ')[0] + ' - ' + value.highgrapgh.xAxis.categories[value.highgrapgh.xAxis.categories.length - 1].split(' ')[0] + ']'">
+                                <h4 class="modal-title"><b ng-bind="title[$index]"></b></h4>
+                                </br>
+                                </br>
+
+                                <div class="box-animation">
+                                    <a ng-click="removeAllSelectedChart()">
+                                        <highchart  id="chartForLatestTrend" config="value.highgrapgh"></highchart> 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="value.isSelected == false" class="col-md-4 minhpop" ng-repeat="(key,value) in graphsData" >
+                            <div class="borderp" ng-init="title[$index] = key + ' - ' + '[' + value.highgrapgh.xAxis.categories[0].split(' ')[0] + ' - ' + value.highgrapgh.xAxis.categories[value.highgrapgh.xAxis.categories.length - 1].split(' ')[0] + ']'">
+                                <h6 class="modal-title"><b ng-bind="title[$index]"></b></h6>
+                                <div>
+                                    <a ng-click="zoomVitalsLine(key)">
+                                        <highchart  id="chartForLatestTrend" config="value.highgrapgh"></highchart> 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" >
+                        <button ng-click="closevitalTop7Trend()" class="btn btn-primary btn-close"
+                                type="button">Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

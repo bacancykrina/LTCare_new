@@ -1,0 +1,146 @@
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>Dashboard
+            <small>Control panel</small>
+        </h1>
+        <ol class='breadcrumb'>
+            <li><a href='#'><i class='fa fa-dashboard'></i>Home</a></li>
+            <li>Administrative</li>
+            <li>Manage User</li>
+            <li class='active'>Add System User</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <form role="form" name="addForm">
+            <div class="box-body">
+                <div  class='col-md-6'>
+                    <div class="form-group" ng-class="{'has-error':addForm.userName.$invalid && addForm.userName.$dirty, 'has-success':addForm.userName.$valid}">
+                        <label for="exampleInputEmail1">User Name: <span class="symbol required"></span> </label>
+                        <input type="text" class="form-control" id="exampleInputUserName" ng-model="userName" placeholder="Enter User name" ng-blur="isUserExist(userName)">
+                        <span class="text-small2 errorColor"  ng-show="validationTag">UserName already existed</span>
+                        <span class="text-small2 errorColor "  ng-show="validationTagOk1">Username Required!</span>
+                        <span class="successColor text-small2 block "  ng-show="validationTagOk">Thank You!</span>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':addForm.pwd.$invalid && addForm.pwd.$dirty, 'has-success':addForm.pwd.$valid}">
+                        <label for="exampleInputPassword">Password: <span class="symbol required"></span></label>
+                        <input type="password" class="form-control" id="exampleInputPassword" ng-model="pwd" placeholder="Password" ng-blur="checkPassword(pwd)">
+                        <span class="successColor text-small2 block "  ng-show="PasswordTagOk">Thank You!</span>
+                        <span class="text-small2 errorColor "  ng-show="PasswordTagNull">Password is required!</span>
+                        <span class="text-small2 errorColor "  ng-show="PasswordTagNotok">Password must contain One Capital Letter,One Special Character,One Digit and Minimum 6 Letters.</span>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':addForm.confirmPwd.$dirty && addForm.confirmPwd.$error.compareTo || addForm.confirmPwd.$dirty && addForm.confirmPwd.$invalid, 'has-success':addForm.confirmPwd.$valid}">
+                        <label for="exampleInputPassword1">Confirm Password: <span class="symbol required"></span></label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" ng-model="confirmPwd" placeholder="Confirm Password">
+                        <span class="successColor text-small2 block "  ng-show="PasswordTagOk">Thank You!</span>
+                        <span class="text-small2 errorColor" ng-show="PasswordTagNull">Password is required!</span>
+                        <span class="text-small2 errorColor" ng-show="PasswordTagNotok">Password must contain One Capital Letter,One Special Character,One Digit and Minimum 6 Letters.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPrefix">Prefix:</label>
+                        <input type="text" class="form-control" id="exampleInputPrefix" ng-model="prefix" placeholder="Enter Prefix">
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':addForm.firstName.$dirty && addForm.firstName.$invalid, 'has-success':addForm.firstName.$valid}">
+                        <label for="exampleInputFirstName">First Name: <span class="symbol required"></span></label>
+                        <input type="text" class="form-control" id="exampleInputFirstName" ng-model="firstName" placeholder="Enter First Name" required>
+                        <span class="errorColor text-small1 block" ng-if="addForm.firstName.$dirty && addForm.firstName.$invalid">First Name is required</span>
+                        <span class="successColor text-small1" ng-if="addForm.firstName.$valid">Thank You!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputLastName">Last Name: <span class="symbol required"></span></label>
+                        <input type="text" class="form-control" id="exampleInputLastName" ng-model="lastName" placeholder="Enter Last Name" required>
+                        <span class="errorColor text-small1 block" ng-if="addForm.lastName.$dirty && addForm.lastName.$invalid">Last Name is required</span>
+                        <span class="successColor text-small1" ng-if="addForm.lastName.$valid">Thank You!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputSuffix">Suffix:</label>
+                        <input type="text" class="form-control" id="exampleInputSuffix" ng-model="suffix" placeholder="Enter Suffix">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputDob">Date Of Birth: <span class="symbol required"></span></label>
+                        <input type="date" class="form-control" id="exampleInputDob" name="dob" ng-model="dob" placeholder="yyyy-MM-dd" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputSpecialization">Specialization: <span class="symbol required"></span></label>
+                        <input type="text" class="form-control" id="exampleInputSpecialization" ng-model="specialization" placeholder="Enter Specialization" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Department Id: <span class="symbol required"></span></label>
+                        <select ng-model="selectedDept" class="form-control">
+                            <option value="{{d.Id}}" ng-repeat="d in deptdataStaff">{{d.Name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail">Email: <span class="symbol required"></span></label>
+                        <input type="email" class="form-control" id="inputEmail" ng-model="emailId" name="emailId" placeholder="Enter Email ID" required>
+                        <span class="errorColor text-small1 block" ng-if="addForm.emailId.$dirty && addForm.emailId.$error.required">Email is required.</span>
+                        <span class="errorColor text-small1 block" ng-if="addForm.emailId.$error.email">Please, enter a valid email address.</span>
+                        <span class="successColor text-small1" ng-if="addForm.emailId.$valid">It's a valid e-mail!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAlternateEmail">Alternate Email: <span class="symbol required"></span></label>
+                        <input type="email" class="form-control" id="inputAlternateEmail" ng-model="alternateEmail" placeholder="Enter Alternate Email ID" required>
+                        <span class="errorColor text-small1 block" ng-if="addForm.alternateEmail.$dirty && addForm.alternateEmail.$error.required">Email is required.</span>
+                        <span class="errorColor text-small1 block" ng-if="addForm.email.$error.email">Please, enter a valid email address.</span>
+                        <span class="successColor text-small1" ng-if="addForm.email.$valid">It's a valid e-mail!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputGender">Gender: <span class="symbol required"></span></label><br/>
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadiosMale" ng-model="gender" value="male" checked>
+                            Male
+                        </label>
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadiosFemale" ng-model="gender" value="female">
+                            Female
+                        </label>
+                        <span class="errorColor text-small block" ng-if="addForm.gender.$dirty && addForm.gender.$error.required">Gender is required.</span>
+                        <span class="successColor text-small1 block" ng-if="addForm.gender.$valid">Thank You!</span>
+                    </div>
+                </div>
+                <div class='col-md-6'>
+                    <div class="form-group">
+                        <label>Role Id: <span class="symbol required"></span></label>
+                        <span class="desc"></span>
+                        <div class="" ng-dropdown-multiselect="" options="roleStaffdata" selected-model="roleInAddStaff" extra-settings="roleAddSystemUser" events="externalEventsRoles"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPhoneNo">Phone No: <span class="symbol required"></span></label>
+                        <input type="text" class="form-control" id="inputPhoneNo" ng-minlength="8" ng-maxlength="14" ng-model="phoneNo" placeholder="Enter Phone Number" required>
+                        <span class="errorColor text-small1 block" ng-if="addForm.phoneNo.$dirty && addForm.phoneNo.$invalid">Phone Number is required</span>
+                        <span class="successColor text-small1" ng-if="addForm.phoneNo.$valid">Thank You!</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Brief:</label>
+                        <textarea class="form-control" rows="3" ng-model="brief" placeholder="Enter Brief Details"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Biography:</label>
+                        <textarea class="form-control" rows="3" ng-model="biography" placeholder="Enter Biography Details"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Education:</label>
+                        <textarea class="form-control" rows="3" ng-model="education" placeholder="Enter Education Details"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Experience:</label>
+                        <textarea class="form-control" rows="3" ng-model="experience" placeholder="Enter Experience Details"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Accomplishments:</label>
+                        <textarea class="form-control" rows="3" ng-model="accomplishment" placeholder="Enter Accomplishments Details"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Membership:</label>
+                        <textarea class="form-control" rows="3" ng-model="membership" placeholder="Enter Membership Details"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer text-center">
+                <button type="submit" class="btn btn-primary" ng-click='addSystemUser()' ng-disabled="(userName == null || pwd == null || confirmPwd == null || firstName == null || lastName == null || dob == null || specialization == null || selectedDept == null || emailId == null || alternateEmail == null || roleInAddStaff == null || phoneNo == null)">Submit</button>
+                <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+            </div>
+
+        </form>
+    </section>
+</div>
